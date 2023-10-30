@@ -1,0 +1,1 @@
+//creates spawn list for fantasy monsters
