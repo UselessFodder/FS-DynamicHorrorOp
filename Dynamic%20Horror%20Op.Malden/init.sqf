@@ -33,7 +33,7 @@ if (isServer) then {
 		DifficultyParam = 2;
 		RespawnParam = 0;
 		MissionType = 1;
-		MissionTheme = 0;
+		MissionTheme = 1;
 		PrefEnemy1 = 0;
 		PrefEnemy2 = 0;
 		PrefEnemy3 = 0;
@@ -92,8 +92,32 @@ if (isServer) then {
 		EnemySpawnValues = EnemySpawnValues * 0.75;
 	};
 	
-	//check for which mods are loaded
-	execVM "checkMods.sqf";
+	//check for param selections
+	if (PrefEnemy1 == 0 && PrefEnemy2 == 0 && PrefEnemy3 == 0) then {
+		//check if theme is selected
+		if (MissionTheme == 0) then {
+			//check for which mods are loaded
+			execVM "checkMods.sqf";
+		} else {
+			//if theme is selected, load correct mods for theme
+			//1: DevourerKings,2: Drongos,3: Webknights,4: Ryan's Zombies,
+			//5: Empires of Old,6: Ravage,7: The Corporation,8: Max ALIEN,
+			//9: Max Werewolf,10: Foes and Allies Aliens
+			
+			//0:Everything, 1:Random, 2:Fantasy, 3:Undead, 4:Sci Fi, 5:Anomalous
+			
+			switch (MissionTheme) do {
+				case 1: { execVM "randomMods.sqf" };
+				case 2: { [[5,9]] execVM "checkSpecifiedMods.sqf" };
+				case 3: { [[1,3,4,5,6]] execVM "checkSpecifiedMods.sqf" };
+				case 4: { [[7,8,10]] execVM "checkSpecifiedMods.sqf" };
+				case 5: { [[1,2,7]] execVM "checkSpecifiedMods.sqf" };
+				
+			};//end switch
+		};
+	} else {
+		[[PrefEnemy1,PrefEnemy2,PrefEnemy3]] execVM "checkSpecifiedMods.sqf";
+	};
 
 	//generate location
 	execVM "findLocation.sqf";

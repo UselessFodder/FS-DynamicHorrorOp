@@ -32,28 +32,28 @@ class Params
 	
 	class MissionTheme
 	{
-		title = "[Future Feature]Mission/Enemy Theme:";
+		title = "Mission/Enemy Theme:";
 		texts[] = {"Everything!","Random","Fantasy","Undead","Sci Fi","Anomalous"};
 		values[] = {0,1,2,3,4,5};
 		default = 1;
 	};	
 	class PrefEnemy1
 	{
-		title = "[Future Feature]Fine Tuned Enemy Selection 1 *ensure mods are loaded*:";
+		title = "Fine Tuned Enemy Selection 1 *ensure mods are loaded*:";
 		texts[] = {"^Follow Theme","DevourerKings","Drongos","Webknights","Ryan's Zombies","Empires of Old","Ravage","The Corporation","Max ALIEN","Max Werewolf","Foes and Allies Aliens"};
 		values[] = {0,1,2,3,4,5,6,7,8,9,10};
 		default = 0;
 	};
 	class PrefEnemy2
 	{
-		title = "[Future Feature]Fine Tuned Enemy Selection 2 *ensure mods are loaded*:";
+		title = "Fine Tuned Enemy Selection 2 *repeat above for fewer types*:";
 		texts[] = {"^Follow Theme","DevourerKings","Drongos","Webknights","Ryan's Zombies","Empires of Old","Ravage","The Corporation","Max ALIEN","Max Werewolf","Foes and Allies Aliens"};
 		values[] = {0,1,2,3,4,5,6,7,8,9,10};
 		default = 0;
 	};
 	class PrefEnemy3
 	{
-		title = "[Future Feature]Fine Tuned Enemy Selection 3 *ensure mods are loaded*:";
+		title = "Fine Tuned Enemy Selection 3 *repeat above for fewer types*:";
 		texts[] = {"^Follow Theme","DevourerKings","Drongos","Webknights","Ryan's Zombies","Empires of Old","Ravage","The Corporation","Max ALIEN","Max Werewolf","Foes and Allies Aliens"};
 		values[] = {0,1,2,3,4,5,6,7,8,9,10};
 		default = 0;
