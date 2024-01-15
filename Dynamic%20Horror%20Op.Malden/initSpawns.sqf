@@ -12,6 +12,40 @@ diag_log "Now starting initSpawns";
 //precompile script to spawn units TO MOVE***
 FS_fnc_getUnits = compile preprocessFile "getUnits.sqf";
 
+//determine if Drongo's is loaded and init module if so
+_isDrongos = false;
+if (isClass(configFile >> "cfgPatches" >> "DSA_Spooks")) then {
+	//set for later use
+	_isDrongos = true;
+	
+	diag_log "*** Drongo's loaded, creating DSA_Core module";
+	
+	//create module to force to East side
+	private _moduleGrp = createGroup sideLogic;
+	"DSA_Core" createUnit [
+		getMarkerPos "mainBase",
+		_moduleGrp,
+		"
+		this setVariable ['BIS_fnc_initModules_disableAutoActivation', false, true];
+		this setVariable ['DSA_Debug', 'FALSE', true];
+		this setVariable ['DSA_DetailedDebug', 'FALSE', true];
+		this setVariable ['DSA_ReportDamage', 'TRUE', true];
+		this setVariable ['DSA_RandomDelay', 1, true];
+		this setVariable ['DSA_ArmourProtection', 100, true];
+		this setVariable ['DSA_AttackDowned', 'TRUE', true];
+		this setVariable ['DSA_ACEdamage', 'TRUE', true];
+		this setVariable ['DSA_AnomalySleep', 5, true];
+		this setVariable ['DSA_AnomalyRange', 7, true];
+		this setVariable ['DSA_AddRating', 'FALSE', true];
+		this setVariable ['DSA_DeathFX', 'TRUE', true];
+		this setVariable ['DSA_ActiveIdolChance', 25, true];
+		this setVariable ['DSA_AllowWater', 'FALSE', true];
+		this setVariable ['DSA_Side', 'east', true];
+		this setVariable ['DSA_DMPAO', 'TRUE', true];
+		"
+	];
+};
+
 //determine pool values amounts
 private _buildingValues = floor(EnemySpawnValues * 0.25);
 private _nearValues = floor(EnemySpawnValues * 0.50);
@@ -138,3 +172,35 @@ publicVariable "TotalSpawned";
 
 //debug***
 diag_log format ["***  All spawns complete! %1 units spawned ***", TotalSpawned];
+
+//check if group is in anything other than EAST and, if so, put in new group
+diag_log "** Checking new group are all EAST";
+{
+	if ((side _x)==SIDEENEMY) then {
+		diag_log format ["* Unit %1 is in incorrect side %2. Moving to new EAST group", typeOf _x, side _x];
+		[_x] joinSilent createGroup [EAST,true];
+	};
+}forEach allUnits;
+
+//check if drongos is loaded and exclude from enemy list if so
+// Credit for code: Drongo himself via DM (thanks bro)
+if (_isDrongos) then {
+	diag_log "*** Drongo's loaded, added all enemies to friendly for modded units";
+	{
+		if((side _x)==EAST)then{_x setVariable["dsaExclude",TRUE,TRUE]};
+	}forEach allUnits;
+	
+}; //end if-then
+
+//check if DevourerKings is loaded and exclude from enemy list 
+// Credit for code: Devourerking23 himself via DM (thanks bro)
+if (isClass(configFile >> "cfgPatches" >> "dev_mutant_common")) then {
+	diag_log "*** Devourerking's loaded, added all enemies to friendly for modded units";
+	{
+		diag_log format ["* Checking this unit for isMutant: %1", typeOf _x];
+		if((side _x)==EAST || (side _x)==SIDEENEMY)then{
+			diag_log format ["** This unit is in side %1. Setting isMutant", side _x];
+			_x setVariable ["isMutant", true, true];
+		};
+	}forEach allUnits;
+}; //end if-then

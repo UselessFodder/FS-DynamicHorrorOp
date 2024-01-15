@@ -154,6 +154,38 @@ if (isServer) then {
 		} forEach units group2;
 	};
 	
+/* 	//check if drongos is loaded and exclude from enemy list if so
+	// Credit for code: Drongo himself via DM (thanks bro)
+	if (isClass(configFile >> "cfgPatches" >> "DSA_Spooks")) then {
+		{
+			if((side _x)==EAST)then{_x setVariable["dsaExclude",TRUE,TRUE]};
+		}forEach allUnits;
+	}; //end if-then
+	
+ 	//check if DevourerKings is loaded and exclude from enemy list 
+	if (isClass(configFile >> "cfgPatches" >> "dev_mutant_common")) then {
+		private _checkPool = [];
+			{
+				_checkPool pushBack (_x select 0);
+			} forEach EnemySpawnPool;
+			{
+				_checkPool pushBack (_x select 0);
+			} forEach EnemySpawnBoss;
+		diag_log format ["*** Checkpool: %1", _checkPool];
+		
+		{
+			diag_log format ["* Checking this unit for isMutant: %1", typeOf _x];
+			if((side _x)==EAST || (side _x)==SIDEENEMY)then{
+			//if(typeOf _x in _checkPool) then{
+				diag_log format ["** This unit is in side %1. Setting isMutant", side _x];
+				_x setVariable ["isMutant", true, true];
+			};
+		}forEach allUnits;
+		
+	}; //end if-then */
+	
+	diag_log "**** Init Complete ****";
+	
 	//add all units to ZeusObjects - UNNEEDED DUE TO 3DEN ENHANCED
 	//execVM "addToZeus.sqf";
 
