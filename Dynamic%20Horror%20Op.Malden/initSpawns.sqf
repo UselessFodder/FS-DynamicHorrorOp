@@ -1,4 +1,5 @@
 //spawn initial enemies from enemy pools and with enemy spawn values
+params ["_locIndex"];
 
 //debug***
 diag_log "Waiting for PoolsLoaded";
@@ -50,7 +51,7 @@ if (isClass(configFile >> "cfgPatches" >> "DSA_Spooks")) then {
 private _buildingValues = floor(EnemySpawnValues * 0.25);
 private _nearValues = floor(EnemySpawnValues * 0.50);
 private _farValues = floor(EnemySpawnValues * 0.25);
-private _buildingSpawns = BuildingSpawns;
+//private _buildingSpawns = BuildingSpawns;
 //clamp to ensure the the while loops don't go forever
 private _numTryIterations = 5;
 private _numTries = _numTryIterations;
@@ -58,9 +59,16 @@ private _numTries = _numTryIterations;
 //debug***
 diag_log format ["Values: %1, %2, %3", _buildingValues,_nearValues,_farValues];
 
+//get logic object holding our spawns and remove spawn variables
+_logicName = format["selectedLocation%1", _locIndex];
+_logicObject = missionNamespace getVariable _logicName;
+_buildingSpawns = _logicObject getVariable "_buildingSpawns";
+_nearSpawns = _logicObject getVariable "_nearSpawns";
+_farSpawns = _logicObject getVariable "_farSpawns";
+
 //check if there are building spawns
-if (count BuildingSpawns <= 0) then {
-	_buildingSpawns = NearSpawns;
+if (count _buildingSpawns <= 0) then {
+	_buildingSpawns = _nearSpawns;
 	//debug***
 	diag_log "Switching from building to near spawns due to no buildings";
 };
@@ -68,7 +76,7 @@ if (count BuildingSpawns <= 0) then {
 //spawn enemies until out of value
 while {_buildingValues > 0 && _numTries > 0} do {
 	//debug***
-	diag_log format ["Building: Attemping iteration %1", _numTries];
+	//diag_log format ["Building: Attemping iteration %1", _numTries];
 	
 	//debug***
 	//diag_log format ["Running building spawns at value %1", _buildingValues];
@@ -81,7 +89,7 @@ while {_buildingValues > 0 && _numTries > 0} do {
 	
 	if (_toSubtract < 1) then {
 		//debug***
-		diag_log format ["Building: No spawns on iteration %1", _numTries];
+		//diag_log format ["Building: No spawns on iteration %1", _numTries];
 		//decrement tries
 		_numTries = _numTries - 1;
 	};	
@@ -98,16 +106,16 @@ _numTries = _numTryIterations;
 //spawn enemies until out of value
 while {_nearValues > 0 && _numTries > 0} do {
 	//debug***
-	diag_log format ["Near: Attemping iteration %1", _numTries];
+	//diag_log format ["Near: Attemping iteration %1", _numTries];
 	
 	//spawn and get subtract value
-	_toSubtract = [_nearValues,NearSpawns] call FS_fnc_getUnits;
+	_toSubtract = [_nearValues,_nearSpawns] call FS_fnc_getUnits;
 	//decrement building values
 	_nearValues = _nearValues - _toSubtract;
 	
 	if (_toSubtract < 1) then {
 		//debug***
-		diag_log format ["Near: No spawns on iteration %1", _numTries];
+		//diag_log format ["Near: No spawns on iteration %1", _numTries];
 		//decrement tries
 		_numTries = _numTries - 1;
 	};
@@ -124,16 +132,16 @@ _numTries = _numTryIterations;
 //spawn enemies until out of value
 while {_farValues > 0 && _numTries > 0} do {
 	//debug***
-	diag_log format ["Far: Attemping iteration %1", _numTries];
+	//diag_log format ["Far: Attemping iteration %1", _numTries];
 	
 	//spawn and get subtract value
-	_toSubtract = [_farValues,FarSpawns] call FS_fnc_getUnits;
+	_toSubtract = [_farValues,_farSpawns] call FS_fnc_getUnits;
 	//decrement building values
 	_farValues = _farValues - _toSubtract;
 	
 	if (_toSubtract < 1) then {
 		//debug***
-		diag_log format ["Far: No spawns on iteration %1", _numTries];				
+		//diag_log format ["Far: No spawns on iteration %1", _numTries];				
 		//decrement tries
 		_numTries = _numTries - 1;	
 	};		
@@ -152,7 +160,7 @@ FarEnemyGroups = [];
 for "_i" from 0 to (count AllEnemyGroups) -1 do {
 	//check if group leader is within NearRadius of marker 
 	//private _leader = leader (AllEnemyGroups select _i);
-	if ((leader (AllEnemyGroups select _i) distance (getMarkerPos "selectedLocation")) <= NearRadius) then {
+	if ((leader (AllEnemyGroups select _i) distance (getMarkerPos _logicName)) <= NearRadius) then {
 		//if it is, this is a near group
 		NearEnemyGroups pushBack (AllEnemyGroups select _i);
 	} else {
@@ -174,10 +182,10 @@ publicVariable "TotalSpawned";
 diag_log format ["***  All spawns complete! %1 units spawned ***", TotalSpawned];
 
 //check if group is in anything other than EAST and, if so, put in new group
-diag_log "** Checking new group are all EAST";
+//diag_log "** Checking new group are all EAST";
 {
 	if ((side _x)==SIDEENEMY) then {
-		diag_log format ["* Unit %1 is in incorrect side %2. Moving to new EAST group", typeOf _x, side _x];
+		//diag_log format ["* Unit %1 is in incorrect side %2. Moving to new EAST group", typeOf _x, side _x];
 		[_x] joinSilent createGroup [EAST,true];
 	};
 }forEach allUnits;
@@ -197,9 +205,9 @@ if (_isDrongos) then {
 if (isClass(configFile >> "cfgPatches" >> "dev_mutant_common")) then {
 	diag_log "*** Devourerking's loaded, added all enemies to friendly for modded units";
 	{
-		diag_log format ["* Checking this unit for isMutant: %1", typeOf _x];
+		//diag_log format ["* Checking this unit for isMutant: %1", typeOf _x];
 		if((side _x)==EAST || (side _x)==SIDEENEMY)then{
-			diag_log format ["** This unit is in side %1. Setting isMutant", side _x];
+			//diag_log format ["** This unit is in side %1. Setting isMutant", side _x];
 			_x setVariable ["isMutant", true, true];
 		};
 	}forEach allUnits;

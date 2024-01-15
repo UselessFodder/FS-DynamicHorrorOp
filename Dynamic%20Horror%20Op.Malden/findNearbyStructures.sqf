@@ -1,5 +1,9 @@
-//get params
-params["_selectedLoc"];
+//0=spawn map location, 1=index of location within SelectedLocations
+//Example: [_selectedLoc,_locIndex] execVM "findNearbyStructures.sqf";
+params["_selectedLoc","_locIndex"];
+
+//initialize array to hold spawn locs
+_buildingSpawns = [];
 
 //radius to search for structures
 private _searchRadius = NearRadius;
@@ -22,7 +26,7 @@ for "_i" from 0 to (count _nearStructures)-1 do {
 	//if ([_nearStructures select _i] call BIS_fnc_isBuildingEnterable) then {
 	//if (!((_nearStructures select _i) buildingExit 0 isEqualTo [0,0,0])) then { 
 		//debug***
-		diag_log format ["Number Pos location: %1", _structurePos];
+		//diag_log format ["Number Pos location: %1", _structurePos];
 		//if so, push into _nearBuildings
 		_nearBuildings pushback (_nearStructures select _i);
 	};//else, discard
@@ -49,8 +53,14 @@ for [{_i = 0},{_i < count _nearBuildings},{_i = _i+1}] do {
 		*/
 		
 		//add to near spawns to use later
-		BuildingSpawns pushback (_testPos select _e);
+		_buildingSpawns pushback (_testPos select _e);
 	};
 };
+
+
+//attach array to location logic
+_logicName = format ["selectedLocation%1", _locIndex];
+_logicObject = missionNamespace getVariable _logicName;
+_logicObject setVariable ["_buildingSpawns", _buildingSpawns];
 
 

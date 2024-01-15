@@ -3,7 +3,7 @@
 params["_valuePool","_spawnType", ["_numToSpawn", ceil(random 4)],["_doPatrol", true]];
 
 //debug***
-diag_log format ["Starting getUnits with value pool %1, spawn type %2, num to spawn %3",_valuePool,_spawnType,_numToSpawn];
+//diag_log format ["Starting getUnits with value pool %1, spawn type %2, num to spawn %3",_valuePool,_spawnType,_numToSpawn];
 
 //precompile script to spawn units TO MOVE***
 FS_fnc_spawnGroup = compile preprocessFile "spawnGroup.sqf";
@@ -16,7 +16,7 @@ private _classnamesToSpawn = [];
 private _numTries = 5;
 
 //debug***
-diag_log format ["Starting while loop with %1 iterations", _iterationsRemain];
+//diag_log format ["Starting while loop with %1 iterations", _iterationsRemain];
 
 while {_iterationsRemain != 0 && _valuePool > 0 && _numTries > 0} do {
 	//get a random unit and check if under values left to spawn
@@ -34,12 +34,12 @@ while {_iterationsRemain != 0 && _valuePool > 0 && _numTries > 0} do {
 		_iterationsRemain = _iterationsRemain - 1;
 		
 		//debug***
-		diag_log format ["Spawning %1 at %2 value,%3 total value, %4 value remains, %5 iterations remain",_toSpawn select 0, _toSpawn select 1, _totalValue, _valuePool, _iterationsRemain];
+		//diag_log format ["Spawning %1 at %2 value,%3 total value, %4 value remains, %5 iterations remain",_toSpawn select 0, _toSpawn select 1, _totalValue, _valuePool, _iterationsRemain];
 	};
 	
 	if (count _classnamesToSpawn < 1) then {
 		//debug***
-		diag_log format ["Get Units: No classnames on iteration %1", _numTries];	
+		//diag_log format ["Get Units: No classnames on iteration %1", _numTries];	
 		//decrement tries
 		_numTries = _numTries - 1;		
 	};
@@ -49,7 +49,7 @@ while {_iterationsRemain != 0 && _valuePool > 0 && _numTries > 0} do {
 };
 
 //debug***
-diag_log format ["Created %1 classnames to spawn: %2", count _classnamesToSpawn, _classnamesToSpawn];
+//diag_log format ["Created %1 classnames to spawn: %2", count _classnamesToSpawn, _classnamesToSpawn];
 
 //spawn enemies at location specified
 if (count (groups east) < 144 && count _classnamesToSpawn > 0) then {

@@ -1,6 +1,6 @@
-//0=spawn map location
-//Example: _selectedLoc execVM "findNearbySpawns.sqf";
-params["_spawnLoc"];
+//0=spawn map location, 1=index of location within SelectedLocations
+//Example: [_selectedLoc,_locIndex] execVM "findNearbySpawns.sqf";
+params["_spawnLoc","_locIndex"];
 
 //radius to search for spawn locations
 private _minRadius = NearRadius - 100;
@@ -35,6 +35,7 @@ while {count _farSpawns < _numSpawns && _currentAttempt < _attempts} do {
 	_currentAttempt = _currentAttempt + 1;
 };
 
+/*
 //add visual markers for debug***
 for "_i" from 0 to (count _farSpawns)-1 do {
 	/*
@@ -44,8 +45,12 @@ for "_i" from 0 to (count _farSpawns)-1 do {
 
 	_newHelper = "VR_3DSelector_01_default_F" createVehicle (_farSpawns select _i);
 	_newHelper setPos (_farSpawns select _i);
-	*/
 	
 	//add to near spawns to use later
 	FarSpawns pushback (_farSpawns select _i);
-};
+}; */
+
+//attach array to location logic
+_logicName = format ["selectedLocation%1", _locIndex];
+_logicObject = missionNamespace getVariable _logicName;
+_logicObject setVariable ["_farSpawns", _farSpawns];

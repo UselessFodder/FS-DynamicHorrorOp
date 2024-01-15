@@ -1,3 +1,9 @@
+//determine how many locations already exist
+private _locIndex = count SelectedLocations;
+
+//array for possible locations
+private _operationLocs = [];
+
 //select which types of locations to find
 private _capitals = true;
 private _cities = true;
@@ -35,7 +41,7 @@ if (_viewPoint) then {
 //diag_Log format ["Current area types to search = %1",_searchTypes];
 
 //run until we have 10 possible locations
-while {count OperationLocations < 10} do {
+while {count _operationLocs < 10} do {
 
 	//select a random location
 	private _operationLoc = selectRandom(nearestLocations [[worldSize/2, worldSize/2,0],_searchTypes,worldSize/2]);
@@ -47,11 +53,11 @@ while {count OperationLocations < 10} do {
 	//if(!(text _operationLoc in _dontSearch)) then {
 	
 	//check if location far enough away from spawn
-	if((getMarkerPos "mainBase") distance (locationPosition _operationLoc) > NearRadius * 2.5) then {
+	if((getMarkerPos "mainBase") distance (locationPosition _operationLoc) > NearRadius * 2.5 && !(surfaceIsWater locationPosition _operationLoc)) then {
 		//add op location to array for later use
-		OperationLocations pushBack _operationLoc;
+		_operationLocs pushBack _operationLoc;
 		//mark location for debug
-		//_debugMarker = createMarker[format["%1",count OperationLocations], locationPosition _operationLoc];
+		//_debugMarker = createMarker[format["%1",count _operationLocs], locationPosition _operationLoc];
 		//_debugMarker setMarkerType "hd_dot";
 		//_debugMarker setMarkerColor "ColorRed";
 		//debug*** 
@@ -60,11 +66,18 @@ while {count OperationLocations < 10} do {
 };
 
 //debug*** for all locations
-diag_log format ["Final OperationLocations is %1 entries: %2",count OperationLocations, OperationLocations];
+diag_log format ["Final _operationLocs is %1 entries: %2",count _operationLocs, _operationLocs];
 
 //select one location and paint it green
-private _selectedLoc = selectRandom OperationLocations;
-_debugMarker = createMarker["selectedLocation", locationPosition _selectedLoc];
+private _selectedLoc = selectRandom _operationLocs;
+
+//create unique marker ID
+private _locName = format ["selectedLocation%1",_locIndex];
+
+//***DEBUG
+diag_Log _locName;
+
+_debugMarker = createMarker[_locName, locationPosition _selectedLoc];
 _debugMarker setMarkerShape "ELLIPSE";
 _debugMarker setMarkerSize [NearRadius,NearRadius];
 _debugMarker setMarkerColor "ColorRed";
@@ -75,14 +88,22 @@ _debugMarker setMarkerBrush "DIAGGRID";
 diag_log format ["Final Location is %1 at %2", text _selectedLoc, _selectedLoc];
 
 //set final location global variable
-FinalLocation = _selectedLoc;
-publicVariable "FinalLocation";
+SelectedLocations pushback _selectedLoc;
+//publicVariable "FinalLocation";
+
+//create empty gameLogic to hold all location variables
+_logicCenter = createCenter sideLogic;
+_logicGroup = createGroup _logicCenter;
+_logic = _logicGroup createUnit ["Logic", getMarkerPos _locName, [], 0, "NONE"];
+//force custom object name
+_logic setVehicleVarName _locName;
+_logic call BIS_fnc_objectVar;
 
 //find all nearby buildings to location
-_selectedLoc execVM "findNearbyStructures.sqf";
+[_selectedLoc, _locIndex] execVM "findNearbyStructures.sqf";
 
 //generate safe near spawning locations on ground
-_selectedLoc execVM "findNearbySpawns.sqf";
+[_selectedLoc, _locIndex] execVM "findNearbySpawns.sqf";
 
 //generate safe far spawning locations on ground
-_selectedLoc execVM "findFarSpawns.sqf";
+[_selectedLoc, _locIndex] execVM "findFarSpawns.sqf";

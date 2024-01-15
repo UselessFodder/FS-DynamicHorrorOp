@@ -9,6 +9,13 @@ class Params
 		values[] = {0,1,2,3};
 		default = 2;
 	};
+	class NumLocations
+	{
+		title = "Number of Mission Zones:";
+		texts[] = {"1","2","3","4","Random"};
+		values[] = {1,2,3,4,5};
+		default = 2;
+	};
 	class RespawnParam
 	{
 		title = "[Future Feature]Respawns:";
