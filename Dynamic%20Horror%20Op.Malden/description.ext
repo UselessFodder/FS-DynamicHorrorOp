@@ -66,3 +66,22 @@ class Params
 		default = 0;
 	};	
 };
+
+class CfgUnitInsignia
+{
+	class POG_Seeker
+	{
+		displayName = "POG Investigation Division";	// name displayed in Arsenal
+		author = "UselessFodder";				// author displayed in Arsenal
+		texture = "POG_Seeker.paa"; // image path
+		textureVehicle = "";						// does nothing, was reserved for future use
+	};	
+	
+	class POG_UFO
+	{
+		displayName = "POG Extra-Terrain Division";	// name displayed in Arsenal
+		author = "UselessFodder";				// author displayed in Arsenal
+		texture = "POG_UFO.paa"; // image path
+		textureVehicle = "";						// does nothing, was reserved for future use
+	};
+};

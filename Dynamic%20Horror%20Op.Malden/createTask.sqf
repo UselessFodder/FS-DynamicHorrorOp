@@ -26,19 +26,13 @@ sleep 5;
 switch (_missionType) do 
 {
 	case 0: {//purge mission
-		//***DEBUG
-		diag_log "Purge selected. Part 1";
-	
-	
+		//create task for location
 		[west, _taskName, [
 			format ["We've received information on strange happenings in %1. POG HQ has tasked us with going in and clearing the area before clean-up teams come in.", text _selectedLoc],
 			format ["Purge %1 of Anomalies", text _selectedLoc], 
 			_locationName], 
 			getMarkerPos _locationName, 
 			"AUTOASSIGNED"] call BIS_fnc_taskCreate;
-		
-		//***DEBUG
-		diag_log format["Purge selected. Part 2, task object is in state %1", _taskName call BIS_fnc_taskState];
 		
 		//create trigger to check when area is cleared
 		_taskTrigger = createTrigger ["EmptyDetector", getMarkerPos _locationName];
@@ -52,9 +46,6 @@ switch (_missionType) do
 			""
 		];
 		
-		//***DEBUG
-		diag_log format["Purge selected. Part 3, task object is in state %1", _taskName call BIS_fnc_taskState];
-		
 		//create briefing information
 		//TODO***
 		//add HQ calls
@@ -62,8 +53,6 @@ switch (_missionType) do
 	
 	};
 	case 1: { //find item missison
-		//***DEBUG
-		diag_log "Find item selected. Part 1";
 	
 		//select item from list
 		private _retrieveItem = selectRandom RetrieveItems;
@@ -94,9 +83,6 @@ switch (_missionType) do
 		//assign RetrieveObject to logic object
 		_logicObject setVariable ["_retrieveObject", _retrieveObject];
 		
-		//***DEBUG
-		diag_log "Find item selected. Part 2";
-		
 		//get the center of the item marker
 		private _offsetPos = [_newPos, NearRadius/3, 1] call BIS_fnc_findSafePos;
 		
@@ -109,19 +95,10 @@ switch (_missionType) do
 		_areaMarker setMarkerColor "ColorBlue";
 		_areaMarker setMarkerAlpha 0.5;
 		_areaMarker setMarkerBrush "DIAGGRID";
-		/*
-		//DEBUG***
-		_debugMarker = createMarker["task", _newPos];
-		_debugMarker setMarkerType "hd_dot";
-		_debugMarker setMarkerColor "ColorBlue";
-		*/
 		
 		//object preview image
 		private _itemPhoto = getText (configfile >> "CfgVehicles" >> typeOf _retrieveObject >> "editorPreview");
 		_taskString = format ["%1",formatText [format ["<img image='%1'/>", _itemPhoto]]];
-		
-		//***DEBUG
-		diag_log "Find item selected. Part 3";
 		
 		//create task
 		[west, _taskName, [
@@ -143,9 +120,6 @@ switch (_missionType) do
 		//add addaction to all players
 		//[fnc_grabObject] remoteExec ["call",0,true];
 		[_retrieveObject] remoteExec ["fnc_grabObject",0,true];
-			
-		//***DEBUG
-		diag_log "Find item selected. Part 4";	
 			
 		//create a task trigger
 		//create trigger to check when item no longer exists
@@ -191,13 +165,7 @@ switch (_missionType) do
 		_areaMarker setMarkerColor "ColorBlue";
 		_areaMarker setMarkerAlpha 0.5;
 		_areaMarker setMarkerBrush "DIAGGRID";
-		/*
-		//DEBUG***
-		_debugMarker = createMarker["task", _newPos];
-		_debugMarker setMarkerType "hd_dot";
-		_debugMarker setMarkerColor "ColorBlue";
-		*/
-		
+
 		//object preview image
 		private _itemPhoto = getText (configfile >> "CfgVehicles" >> typeOf _destroyObject >> "editorPreview");
 		_taskString = format ["%1",formatText [format ["<img image='%1'/>", _itemPhoto]]];
@@ -245,38 +213,32 @@ switch (_missionType) do
 	};
 };
 
+//wait until all spawns are complete
+waitUntil {sleep 0.5; count (_logicObject getVariable ["_farEnemyGroups", []]) > 0}; 
 
-//***TODO for multi-task refactor
+//_nearEnemyGroups = _logicObject getVariable "_nearEnemyGroups";
+//diag_log format ["** _nearEnemyGroups = %1", _nearEnemyGroups];
+//_farEnemyGroups = _logicObject getVariable "_farEnemyGroups";
+//diag_log format ["** _farEnemyGroups = %1", _farEnemyGroups];
+//_allEnemyGroups = _nearEnemyGroups + _farEnemyGroups;
 
-/*
+//diag_log format ["** All Enemy Groups = %1", _allEnemyGroups];
+
+
+diag_log format ["***Variables are _locationName:%1, _selectedLoc: %2",_locationName,_selectedLoc];
+diag_log "";
 //create trigger to collapse far enemies to center when players arrive
-_collapseTrigger = createTrigger ["EmptyDetector", getMarkerPos "selectedLocation"];
+_collapseTrigger = createTrigger ["EmptyDetector", getMarkerPos _locationName];
 _collapseTrigger setTriggerArea [NearRadius/2, NearRadius/2, 0, false];
 _collapseTrigger setTriggerActivation ["WEST","PRESENT",false];
-_collapseTrigger setTriggerStatements ["this", "execVM 'farEnemiesCollapse.sqf'", ""];
+_collapseTrigger setTriggerStatements ["this", format ["['%1',%2] execVM 'farEnemiesCollapse.sqf'",_locationName,locationPosition _selectedLoc], ""];
 
 //create trigger to force enemies to chase players after a certain threshold have been defeated
-_chaseTrigger = createTrigger ["EmptyDetector", getMarkerPos "selectedLocation"];
-_chaseTrigger setTriggerStatements ["count units east < (TotalSpawned * ChaseRatio)", "execVM 'allEnemiesChase.sqf'", ""];
+_chaseTrigger = createTrigger ["EmptyDetector", getMarkerPos _locationName];
+_chaseTrigger setTriggerStatements [
+	format ["count (units east inAreaArray '%1') < (TotalSpawned * ChaseRatio)",_locationName],
+	format ["['%1'] execVM 'allEnemiesChase.sqf'",_locationName]
+	, ""
+];
 
-//create trigger to generate exfil task
-_finishTrigger = createTrigger ["EmptyDetector", getMarkerPos "selectedLocation"];
-_finishTrigger setTriggerStatements ["'task1' call BIS_fnc_taskCompleted", "[west, 'taskFinal', ['Time to get the hell out of here...','EXFIL','selectedLocation'],getMarkerPos 'mainBase','AUTOASSIGNED'] call BIS_fnc_taskCreate;", ""];
-
-//create trigger to complete task
-_exfilTrigger = createTrigger ["EmptyDetector", getMarkerPos "selectedLocation"];
-_exfilTrigger setTriggerArea [600, 600, 0, false];
-_exfilTrigger setTriggerActivation ["WEST","NOT PRESENT",true];
-_exfilTrigger setTriggerStatements [
-	"this && ('task1' call BIS_fnc_taskCompleted)",
-	"['taskFinal', 'SUCCEEDED'] call BIS_fnc_taskSetState;",
-	""];
-
-//create endGame trigger (MP safe)***
-_endTrigger = createTrigger ["EmptyDetector", getMarkerPos "mainBase"];
-_endTrigger setTriggerStatements [
-	"'taskFinal' call BIS_fnc_taskCompleted",
-	"[] remoteExec ['BIS_fnc_endMission', 0, true];", 
-	""];
-_endTrigger setTriggerTimeout [5, 5, 5,false];
-*/
+//_chaseTrigger setTriggerStatements ["count units east < (TotalSpawned * ChaseRatio)", format ["[%1,%2] execVM 'allEnemiesChase.sqf'",_allEnemyGroups,_locationName], ""];

@@ -153,26 +153,37 @@ while {_farValues > 0 && _numTries > 0} do {
 AllEnemyGroups = groups east;
 
 //get all groups outside a distance from zone and save to public array and vice versa
-NearEnemyGroups = [];
-FarEnemyGroups = [];
+_nearEnemyGroups = [];
+_farEnemyGroups = [];
 
 //loop through all groups and check if distance from point is > near distance
 for "_i" from 0 to (count AllEnemyGroups) -1 do {
 	//check if group leader is within NearRadius of marker 
 	//private _leader = leader (AllEnemyGroups select _i);
-	if ((leader (AllEnemyGroups select _i) distance (getMarkerPos _logicName)) <= NearRadius) then {
+	private _leader = leader (AllEnemyGroups select _i);
+	private _distance = _leader distance (getMarkerPos _logicName);
+	if (_distance <= NearRadius) then {
 		//if it is, this is a near group
-		NearEnemyGroups pushBack (AllEnemyGroups select _i);
+		_nearEnemyGroups pushBack (AllEnemyGroups select _i);
 	} else {
-		//if not, it's a far group
-		FarEnemyGroups pushBack (AllEnemyGroups select _i);
-	}
+		//if between near distance and max spawn distance of 750, its a far group for this spawn
+		if (((_distance) >= NearRadius) && (_distance <= 750)) then {
+			_farEnemyGroups pushBack (AllEnemyGroups select _i);
+		};
+	};
 };
 
 //make publically available
 publicVariable "AllEnemyGroups";
-publicVariable "NearEnemyGroups";
-publicVariable "FarEnemyGroups";
+//publicVariable "NearEnemyGroups";
+//publicVariable "FarEnemyGroups";
+
+//***DEBUG
+//diag_log format ["** _nearEnemyGroups = %1", _nearEnemyGroups];
+//diag_log format ["** _farEnemyGroups = %1", _farEnemyGroups];
+
+_logicObject setVariable ["_nearEnemyGroups", _nearEnemyGroups];
+_logicObject setVariable ["_farEnemyGroups", _farEnemyGroups];
 
 //get total number of units
 TotalSpawned = count units east;
