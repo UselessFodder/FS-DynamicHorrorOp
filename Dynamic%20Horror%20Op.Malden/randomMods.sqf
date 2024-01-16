@@ -78,7 +78,7 @@ if (count _loadedMods <= _numMods) then {
 	//log***
 	diag_log format ["Selected the following %1 mods: %2",count _loadedMods,_loadedMods];
 
-	_loadedMods execVM "checkSpecifiedMods.sqf";
+	[_loadedMods] execVM "checkSpecifiedMods.sqf";
 } else {
 	//if not build selection with for loop
 	for [{ _i = 0 }, { _i < _numMods }, { _i = _i + 1 }] do {

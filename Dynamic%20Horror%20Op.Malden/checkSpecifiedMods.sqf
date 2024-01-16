@@ -3,7 +3,7 @@
 params["_modArray"];
 
 //***debug***
-diag_log format ["Passed in _modArray=%1", _modArray];
+diag_log format ["Passed in _modArray = %1", _modArray];
 
 //check if certain mods are specified
 if (1 in _modArray) then {
