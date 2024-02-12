@@ -34,7 +34,7 @@ if (isServer) then {
 	} else {
 		//default single player values
 		DifficultyParam = 2;
-		NumLocationsParam = selectRandom [1,1,2,2,3];
+		NumLocationParam = selectRandom [1,1,2,2,3];
 		RespawnParam = 0;
 		MissionType = 1;
 		MissionTheme = 1;
