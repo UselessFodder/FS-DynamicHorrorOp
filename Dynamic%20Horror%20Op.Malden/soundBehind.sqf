@@ -1,3 +1,6 @@
+//get location
+params ["_selectedLoc"];
+
 //check if mission vibe is spook. If so, set waitMultiplier to 0.5
 private _waitMultiplier = 1;
 if (MissionType == 0) then {
@@ -12,7 +15,7 @@ while{true} do {
 	_player = selectRandom allPlayers;
 	
 	//check if player is inside spook zone and on the ground
-	if((_player distance locationPosition FinalLocation) < (NearRadius * 1.5) && isTouchingGround _player) then {
+	if((_player distance locationPosition _selectedLoc) < (NearRadius * 1.5) && isTouchingGround _player) then {
 		//select randomized sound
 		_theSound = selectRandom[
 			"zombie1.ogg", "zombie2.ogg", "zombie3.ogg", "gross1.ogg", 

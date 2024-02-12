@@ -9,6 +9,13 @@ class Params
 		values[] = {0,1,2,3};
 		default = 2;
 	};
+	class NumLocations
+	{
+		title = "Number of Mission Zones:";
+		texts[] = {"1","2","3","4","Random"};
+		values[] = {1,2,3,4,5};
+		default = 2;
+	};
 	class RespawnParam
 	{
 		title = "[Future Feature]Respawns:";
@@ -32,30 +39,49 @@ class Params
 	
 	class MissionTheme
 	{
-		title = "[Future Feature]Mission/Enemy Theme:";
+		title = "Mission/Enemy Theme:";
 		texts[] = {"Everything!","Random","Fantasy","Undead","Sci Fi","Anomalous"};
 		values[] = {0,1,2,3,4,5};
 		default = 1;
 	};	
 	class PrefEnemy1
 	{
-		title = "[Future Feature]Fine Tuned Enemy Selection 1 *ensure mods are loaded*:";
+		title = "Fine Tuned Enemy Selection 1 *ensure mods are loaded*:";
 		texts[] = {"^Follow Theme","DevourerKings","Drongos","Webknights","Ryan's Zombies","Empires of Old","Ravage","The Corporation","Max ALIEN","Max Werewolf","Foes and Allies Aliens"};
 		values[] = {0,1,2,3,4,5,6,7,8,9,10};
 		default = 0;
 	};
 	class PrefEnemy2
 	{
-		title = "[Future Feature]Fine Tuned Enemy Selection 2 *ensure mods are loaded*:";
+		title = "Fine Tuned Enemy Selection 2 *repeat above for fewer types*:";
 		texts[] = {"^Follow Theme","DevourerKings","Drongos","Webknights","Ryan's Zombies","Empires of Old","Ravage","The Corporation","Max ALIEN","Max Werewolf","Foes and Allies Aliens"};
 		values[] = {0,1,2,3,4,5,6,7,8,9,10};
 		default = 0;
 	};
 	class PrefEnemy3
 	{
-		title = "[Future Feature]Fine Tuned Enemy Selection 3 *ensure mods are loaded*:";
+		title = "Fine Tuned Enemy Selection 3 *repeat above for fewer types*:";
 		texts[] = {"^Follow Theme","DevourerKings","Drongos","Webknights","Ryan's Zombies","Empires of Old","Ravage","The Corporation","Max ALIEN","Max Werewolf","Foes and Allies Aliens"};
 		values[] = {0,1,2,3,4,5,6,7,8,9,10};
 		default = 0;
 	};	
+};
+
+class CfgUnitInsignia
+{
+	class POG_Seeker
+	{
+		displayName = "POG Investigation Division";	// name displayed in Arsenal
+		author = "UselessFodder";				// author displayed in Arsenal
+		texture = "POG_Seeker.paa"; // image path
+		textureVehicle = "";						// does nothing, was reserved for future use
+	};	
+	
+	class POG_UFO
+	{
+		displayName = "POG Extra-Terrain Division";	// name displayed in Arsenal
+		author = "UselessFodder";				// author displayed in Arsenal
+		texture = "POG_UFO.paa"; // image path
+		textureVehicle = "";						// does nothing, was reserved for future use
+	};
 };

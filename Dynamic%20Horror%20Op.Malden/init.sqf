@@ -1,10 +1,11 @@
 if (isServer) then {
 	//set global variables
-	OperationLocations = [];
-	FinalLocation = "";
-	NearSpawns = [];
-	BuildingSpawns = [];
-	FarSpawns = [];
+	SelectedLocations = [];
+	LastLocation = [0,0,0];
+	CompletedLocations = 0;
+	//NearSpawns = [];
+	//BuildingSpawns = [];
+	//FarSpawns = [];
 	EnemySpawnPool = [];
 	EnemySpawnBoss = [];
 	PoolsLoaded = false;
@@ -19,6 +20,7 @@ if (isServer) then {
 	//check for multiplayer params
 	if(isMultiplayer) then {
 		DifficultyParam = ["DifficultyParam", 2] call BIS_fnc_getParamValue;
+		NumLocationParam = ["NumLocations", 1] call BIS_fnc_getParamValue;
 		RespawnParam = ["RespawnParam", 0] call BIS_fnc_getParamValue;
 		MissionType = ["MissionType", 1] call BIS_fnc_getParamValue;
 		MissionTheme = ["MissionTheme", 0] call BIS_fnc_getParamValue;
@@ -30,10 +32,12 @@ if (isServer) then {
 		//	execVM "disableRespawn.sqf";
 		};
 	} else {
+		//default single player values
 		DifficultyParam = 2;
+		NumLocationParam = selectRandom [1,1,2,2,3];
 		RespawnParam = 0;
 		MissionType = 1;
-		MissionTheme = 0;
+		MissionTheme = 1;
 		PrefEnemy1 = 0;
 		PrefEnemy2 = 0;
 		PrefEnemy3 = 0;
@@ -55,6 +59,13 @@ if (isServer) then {
 			_difficultyModifier = 1.5;
 		};
 	};	
+	
+	//number of locations to spawn based on params
+	if (NumLocationParam == 5) then {
+		NumLocations = selectRandom [1,2,3];
+	} else {
+		NumLocations = NumLocationParam;
+	};
 
 	//assign MissionCommander
 	if(isNull leader group1) then {
@@ -92,36 +103,44 @@ if (isServer) then {
 		EnemySpawnValues = EnemySpawnValues * 0.75;
 	};
 	
-	//check for which mods are loaded
-	execVM "checkMods.sqf";
-
-	//generate location
-	execVM "findLocation.sqf";
+	//check for param selections
+	if (PrefEnemy1 == 0 && PrefEnemy2 == 0 && PrefEnemy3 == 0) then {
+		//check if theme is selected
+		if (MissionTheme == 0) then {
+			//check for which mods are loaded
+			execVM "checkMods.sqf";
+		} else {
+			//if theme is selected, load correct mods for theme
+			//1: DevourerKings,2: Drongos,3: Webknights,4: Ryan's Zombies,
+			//5: Empires of Old,6: Ravage,7: The Corporation,8: Max ALIEN,
+			//9: Max Werewolf,10: Foes and Allies Aliens
+			
+			//0:Everything, 1:Random, 2:Fantasy, 3:Undead, 4:Sci Fi, 5:Anomalous
+			
+			switch (MissionTheme) do {
+				case 1: { execVM "randomMods.sqf" };
+				case 2: { [[5,9]] execVM "checkSpecifiedMods.sqf" };
+				case 3: { [[1,3,4,5,6]] execVM "checkSpecifiedMods.sqf" };
+				case 4: { [[7,8,10]] execVM "checkSpecifiedMods.sqf" };
+				case 5: { [[1,2,7]] execVM "checkSpecifiedMods.sqf" };
+				
+			};//end switch
+		};
+	} else {
+		[[PrefEnemy1,PrefEnemy2,PrefEnemy3]] execVM "checkSpecifiedMods.sqf";
+	};
 	
-	//select mission type
-	//0=clear area, 1=find objects, 2=destroy object, 3=kill boss, 4=rescue
-	//MissionType = floor(random(4));
-	MissionType = selectRandom[0,1,2];
-	//DEBUG***
-	//MissionType = 1;
+	for [{ private _i = 0 }, { _i < NumLocations }, { _i = _i + 1 }] do {
+		//generate location
+		execVM "findLocation.sqf";
+	};
 	
-	//select enemy types
-	//0=all, 1=fantasy, 2=sci fi, 3=cryptid, 4=stalker/post-apoc, 5=undead
-	//TODO***
+	waitUntil {count SelectedLocations == NumLocations};
 	
-	//spawn enemies inside, out
-	_spawnInit = execVM "initSpawns.sqf";
-	
-	
-	//waitUntil{sleep 1;scriptDone _spawnInit};
-	waitUntil{sleep 1; count (units east inAreaArray "selectedLocation") > 5;};
-	
-	
-	//generate tasks
-	execVM "createTask.sqf";
-	
-	//generate randomized spook noises
-	execVM "soundBehind.sqf";
+	//initialize all locations
+	{
+		[_x,_forEachIndex] execVM "initLocation.sqf";
+	} forEach SelectedLocations;
 	
 	//if single player, delete group 2
 	if(!isMultiplayer) then {
@@ -130,10 +149,44 @@ if (isServer) then {
 		} forEach units group2;
 	};
 	
+	
+	diag_log "**** Init Complete ****";
+	
 	//add all units to ZeusObjects - UNNEEDED DUE TO 3DEN ENHANCED
 	//execVM "addToZeus.sqf";
 
+	fnc_finalTask = {
+	
+		//create trigger to complete task
+		_exfilTrigger = createTrigger ["EmptyDetector", LastLocation];
+		_exfilTrigger setTriggerArea [600, 600, 0, false];
+		_exfilTrigger setTriggerActivation ["WEST","NOT PRESENT",true];
+		_exfilTrigger setTriggerStatements [
+			"this && (CompletedLocations == count SelectedLocations)",
+			"['taskFinal', 'SUCCEEDED'] call BIS_fnc_taskSetState;",
+			""
+		];
+
+		//create endGame trigger (MP safe)***
+		_endTrigger = createTrigger ["EmptyDetector", getMarkerPos "mainBase"];
+		_endTrigger setTriggerStatements [
+			"'taskFinal' call BIS_fnc_taskCompleted",
+			"[] remoteExec ['BIS_fnc_endMission', 0, true];", 
+			""
+		];
+		_endTrigger setTriggerTimeout [5, 5, 5,false];
+	
+	};
 
 
+	//create trigger to generate exfil task
+	_finishTrigger = createTrigger ["EmptyDetector", getMarkerPos "mainBase"];
+	_finishTrigger setTriggerStatements [
+		"CompletedLocations == count SelectedLocations",
+		"[west, 'taskFinal', ['Time to get the hell out of here...','EXFIL',LastLocation],LastLocation,'AUTOASSIGNED'] call BIS_fnc_taskCreate; call fnc_finalTask;",
+		""
+	];
+
+	
 
 };
