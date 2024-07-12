@@ -23,5 +23,6 @@ params ["_selectedLoc","_locIndex"];
 	//generate tasks
 	[_selectedLoc,_locIndex,_missionType] execVM "createTask.sqf";
 	
-	//generate randomized spook noises
-	[_selectedLoc] execVM "soundBehind.sqf";
+	//generate randomized spook events
+	[_selectedLoc] execVM "generateSpooks.sqf";
+	//[_selectedLoc] execVM "soundBehind.sqf";
