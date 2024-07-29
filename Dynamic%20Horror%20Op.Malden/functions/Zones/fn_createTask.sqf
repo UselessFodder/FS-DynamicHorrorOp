@@ -237,7 +237,7 @@ _collapseTrigger setTriggerStatements ["this", format ["['%1',%2] call DHO_fnc_f
 _chaseTrigger = createTrigger ["EmptyDetector", getMarkerPos _locationName];
 _chaseTrigger setTriggerStatements [
 	format ["count (units east inAreaArray '%1') < (TotalSpawned * ChaseRatio)",_locationName],
-	format ["['%1'] call DHO_fnc_allEnemiesChase",_locationName]
+	format ["['%1'] spawn DHO_fnc_allEnemiesChase",_locationName]
 	, ""
 ];
 
