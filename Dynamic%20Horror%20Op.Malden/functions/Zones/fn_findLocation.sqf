@@ -100,10 +100,10 @@ _logic setVehicleVarName _locName;
 _logic call BIS_fnc_objectVar;
 
 //find all nearby buildings to location
-[_selectedLoc, _locIndex] execVM "findNearbyStructures.sqf";
+[_selectedLoc, _locIndex] call DHO_fnc_findNearbyStructures;
 
 //generate safe near spawning locations on ground
-[_selectedLoc, _locIndex] execVM "findNearbySpawns.sqf";
+[_selectedLoc, _locIndex] call DHO_fnc_findNearbySpawns;
 
 //generate safe far spawning locations on ground
-[_selectedLoc, _locIndex] execVM "findFarSpawns.sqf";
+[_selectedLoc, _locIndex] call DHO_fnc_findFarSpawns;

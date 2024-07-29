@@ -18,11 +18,11 @@ while{true} do {
 	if((_player distance locationPosition _selectedLoc) < (NearRadius * 1.5) && isTouchingGround _player) then {
 		//select randomized sound
 		_theSound = selectRandom[
-			"zombie1.ogg", "zombie2.ogg", "zombie3.ogg", "gross1.ogg", 
-			"brush1.ogg","brush1.ogg","brush1.ogg",
-			"laugh1.ogg","laugh2.ogg","laugh3.ogg",
-			"growl.ogg","growl.ogg","whisper1.ogg",
-			"echo.ogg","echo.ogg","echo.ogg"];
+			"sounds\zombie1.ogg", "sounds\zombie2.ogg", "sounds\zombie3.ogg", "sounds\gross1.ogg", 
+			"sounds\brush1.ogg","sounds\brush1.ogg","sounds\brush1.ogg",
+			"sounds\laugh1.ogg","sounds\laugh2.ogg","sounds\laugh3.ogg",
+			"sounds\growl.ogg","sounds\growl.ogg","sounds\whisper1.ogg",
+			"sounds\echo.ogg","sounds\echo.ogg","sounds\echo.ogg"];
 		
 		//get area directly behind player
 		_dir = getDir _player;

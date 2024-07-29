@@ -11,7 +11,7 @@ waitUntil {sleep 0.5; PoolsLoaded};
 diag_log "Now starting initSpawns";
 
 //precompile script to spawn units TO MOVE***
-FS_fnc_getUnits = compile preprocessFile "getUnits.sqf";
+//FS_fnc_getUnits = compile preprocessFile "getUnits.sqf";
 
 //determine if Drongo's is loaded and init module if so
 _isDrongos = false;
@@ -81,7 +81,7 @@ while {_buildingValues > 0 && _numTries > 0} do {
 	//debug***
 	//diag_log format ["Running building spawns at value %1", _buildingValues];
 	//spawn and get subtract value
-	_toSubtract = [_buildingValues,_buildingSpawns, 1,false] call FS_fnc_getUnits;
+	_toSubtract = [_buildingValues,_buildingSpawns, 1,false] call DHO_fnc_getUnits;
 	//debug***
 	//diag_log format ["Generated units at cost %1", _toSubtract];
 	//decrement building values
@@ -109,7 +109,7 @@ while {_nearValues > 0 && _numTries > 0} do {
 	//diag_log format ["Near: Attemping iteration %1", _numTries];
 	
 	//spawn and get subtract value
-	_toSubtract = [_nearValues,_nearSpawns] call FS_fnc_getUnits;
+	_toSubtract = [_nearValues,_nearSpawns] call DHO_fnc_getUnits;
 	//decrement building values
 	_nearValues = _nearValues - _toSubtract;
 	
@@ -135,7 +135,7 @@ while {_farValues > 0 && _numTries > 0} do {
 	//diag_log format ["Far: Attemping iteration %1", _numTries];
 	
 	//spawn and get subtract value
-	_toSubtract = [_farValues,_farSpawns] call FS_fnc_getUnits;
+	_toSubtract = [_farValues,_farSpawns] call DHO_fnc_getUnits;
 	//decrement building values
 	_farValues = _farValues - _toSubtract;
 	
