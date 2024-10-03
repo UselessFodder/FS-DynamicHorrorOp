@@ -1,5 +1,6 @@
 //0=spawn map location, 1=index of location within SelectedLocations
-//Example: [_selectedLoc,_locIndex] execVM "findNearbyStructures.sqf";
+//Example: [_selectedLoc,_locIndex] execVM "functions\Zones\fn_findNearbyStructures.sqf";
+//Example: [_selectedLoc,_locIndex] call DHO_fnc_findNearbyStructures.sqf;
 params["_selectedLoc","_locIndex"];
 
 //initialize array to hold spawn locs

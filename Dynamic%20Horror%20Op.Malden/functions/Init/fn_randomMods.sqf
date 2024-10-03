@@ -78,7 +78,7 @@ if (count _loadedMods <= _numMods) then {
 	//log***
 	diag_log format ["Selected the following %1 mods: %2",count _loadedMods,_loadedMods];
 
-	[_loadedMods] execVM "checkSpecifiedMods.sqf";
+	[_loadedMods] call DHO_fnc_checkSpecifiedMods;
 } else {
 	//if not build selection with for loop
 	for [{ _i = 0 }, { _i < _numMods }, { _i = _i + 1 }] do {
@@ -91,6 +91,6 @@ if (count _loadedMods <= _numMods) then {
 	diag_log format ["Selected the following %1 mods: %2",_numMods,_selectedMods];
 	
 	//load enemy script
-	[_selectedMods] execVM "checkSpecifiedMods.sqf";
+	[_selectedMods] call DHO_fnc_checkSpecifiedMods;
 	
 };

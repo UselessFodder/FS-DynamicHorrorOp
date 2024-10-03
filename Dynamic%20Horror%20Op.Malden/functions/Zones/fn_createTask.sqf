@@ -231,13 +231,13 @@ diag_log "";
 _collapseTrigger = createTrigger ["EmptyDetector", getMarkerPos _locationName];
 _collapseTrigger setTriggerArea [NearRadius/2, NearRadius/2, 0, false];
 _collapseTrigger setTriggerActivation ["WEST","PRESENT",false];
-_collapseTrigger setTriggerStatements ["this", format ["['%1',%2] execVM 'farEnemiesCollapse.sqf'",_locationName,locationPosition _selectedLoc], ""];
+_collapseTrigger setTriggerStatements ["this", format ["['%1',%2] call DHO_fnc_farEnemiesCollapse",_locationName,locationPosition _selectedLoc], ""];
 
 //create trigger to force enemies to chase players after a certain threshold have been defeated
 _chaseTrigger = createTrigger ["EmptyDetector", getMarkerPos _locationName];
 _chaseTrigger setTriggerStatements [
 	format ["count (units east inAreaArray '%1') < (TotalSpawned * ChaseRatio)",_locationName],
-	format ["['%1'] execVM 'allEnemiesChase.sqf'",_locationName]
+	format ["['%1'] spawn DHO_fnc_allEnemiesChase",_locationName]
 	, ""
 ];
 

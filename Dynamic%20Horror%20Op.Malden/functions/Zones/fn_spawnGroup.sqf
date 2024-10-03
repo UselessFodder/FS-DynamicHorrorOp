@@ -1,5 +1,6 @@
 //0 = int, 1 = array strings, 2 = NearSpawns/BuildingSpawns/FarSpawns
-// example [5,ZombieTypes,NearSpawns] execVM "spawnGroup.sqf";
+// example [5,ZombieTypes,NearSpawns] execVM "functions\Zones\fn_spawnGroup.sqf";
+// example [5,ZombieTypes,NearSpawns] call DHO_fnc_spawnGroup;
 params["_numToSpawn","_classNames","_spawnType"];
 
 //debug***

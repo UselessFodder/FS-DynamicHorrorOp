@@ -80,9 +80,9 @@ if (isServer) then {
 	RetrieveItems = [];
 	DestroyItems = [];
 	//generate possible items to Retrieve in missiontype 1
-	execVM "initRetrieveItems.sqf";
+	call DHO_fnc_initRetrieveItems;
 	//generate possible items to Destroy in missiontype 2
-	execVM "initDestroyItems.sqf";
+	call DHO_fnc_initDestroyItems;
 	
 	//if more players, increase NearRadius
 	if(count allPlayers > 4) then {
@@ -108,7 +108,7 @@ if (isServer) then {
 		//check if theme is selected
 		if (MissionTheme == 0) then {
 			//check for which mods are loaded
-			execVM "checkMods.sqf";
+			call DHO_fnc_checkMods;
 		} else {
 			//if theme is selected, load correct mods for theme
 			//1: DevourerKings,2: Drongos,3: Webknights,4: Ryan's Zombies,
@@ -118,28 +118,28 @@ if (isServer) then {
 			//0:Everything, 1:Random, 2:Fantasy, 3:Undead, 4:Sci Fi, 5:Anomalous
 			
 			switch (MissionTheme) do {
-				case 1: { execVM "randomMods.sqf" };
-				case 2: { [[5,9]] execVM "checkSpecifiedMods.sqf" };
-				case 3: { [[1,3,4,5,6]] execVM "checkSpecifiedMods.sqf" };
-				case 4: { [[7,8,10]] execVM "checkSpecifiedMods.sqf" };
-				case 5: { [[1,2,7]] execVM "checkSpecifiedMods.sqf" };
+				case 1: { call DHO_fnc_randomMods };
+				case 2: { [[5,9]] call DHO_fnc_checkSpecifiedMods };
+				case 3: { [[1,3,4,5,6]] call DHO_fnc_checkSpecifiedMods };
+				case 4: { [[7,8,10]] call DHO_fnc_checkSpecifiedMods };
+				case 5: { [[1,2,7]] call DHO_fnc_checkSpecifiedMods };
 				
 			};//end switch
 		};
 	} else {
-		[[PrefEnemy1,PrefEnemy2,PrefEnemy3]] execVM "checkSpecifiedMods.sqf";
+		[[PrefEnemy1,PrefEnemy2,PrefEnemy3]] call DHO_fnc_checkSpecifiedMods;
 	};
 	
 	for [{ private _i = 0 }, { _i < NumLocations }, { _i = _i + 1 }] do {
 		//generate location
-		execVM "findLocation.sqf";
+		[] spawn DHO_fnc_findLocation;
 	};
 	
 	waitUntil {count SelectedLocations == NumLocations};
 	
 	//initialize all locations
 	{
-		[_x,_forEachIndex] execVM "initLocation.sqf";
+		[_x,_forEachIndex] spawn DHO_fnc_initLocation;
 	} forEach SelectedLocations;
 	
 	//if single player, delete group 2
@@ -151,6 +151,10 @@ if (isServer) then {
 	
 	
 	diag_log "**** Init Complete ****";
+	
+	//add actions to insert helicopter
+	transportHeli addAction ["* Select LZ", "selectHeliLZ.sqf", nil, 1.5, true, true, "", "_this == missionCommander && !(isEngineOn _target)", 10, false];
+	transportHeli addAction ["** Begin Insertion", "heliInsert.sqf", nil, 1.5, true, true, "", "_this == missionCommander && !(isEngineOn _target)", 10, false];
 	
 	//add all units to ZeusObjects - UNNEEDED DUE TO 3DEN ENHANCED
 	//execVM "addToZeus.sqf";

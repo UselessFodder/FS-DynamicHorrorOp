@@ -85,3 +85,45 @@ class CfgUnitInsignia
 		textureVehicle = "";						// does nothing, was reserved for future use
 	};
 };
+
+class CfgFunctions
+{
+	class DHO
+	{
+		class Base
+		{
+			class heliInsert {};
+			class selectHeliLZ {};
+		};
+		
+		class Init
+		{
+			class checkMods {};
+			class checkSpecifiedMods {};
+			class initDestroyItems {};
+			class initRetrieveItems {};
+			class randomMods {};
+		};
+		
+		class Spooks
+		{
+			class soundBehind {};
+		};		
+		
+		class Zones
+		{
+			class allEnemiesChase {};
+			class createTask {};
+			class farEnemiesCollapse {};
+			class findFarSpawns {};
+			class findLocation {};
+			class findNearbySpawns {};
+			class findNearbyStructures {};
+			class generateLocation {};
+			class getUnits {};
+			class initLocation {};
+			class initSpawns {};
+			class spawnGroup {};
+		};
+	};
+};
