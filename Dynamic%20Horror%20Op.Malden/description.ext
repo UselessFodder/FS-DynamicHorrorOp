@@ -107,6 +107,10 @@ class CfgFunctions
 		
 		class Spooks
 		{
+			class enemyBehind {};
+			class enemyInfront {};
+			class generateSpooks {};
+			class getBehindPlayer {};
 			class soundBehind {};
 		};		
 		
