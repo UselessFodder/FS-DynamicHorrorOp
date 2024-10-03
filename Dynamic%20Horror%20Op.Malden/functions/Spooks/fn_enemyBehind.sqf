@@ -18,7 +18,7 @@ params ["_selectedLoc"];
 		"sounds\pianojumpscare.ogg","sounds\jump.ogg"];	
 	
 	//get area directly behind player
-	private _dir = _player call compile preprocessFileLineNumbers "getBehindPlayer.sqf";
+	private _dir = _player call DHO_fnc_getBehindPlayer;
 	private _spawnLoc = _player getPos [10,_dir];
 	
 	//randomize direction to be anywhere sort of behind player
@@ -28,7 +28,7 @@ params ["_selectedLoc"];
 	playSound3D [getMissionPath _theSound, _player, false, _spawnLoc,3]; 
 	
 	//select a random unit type and spawn them
-	[2,[_spawnLoc], 1,false] call FS_fnc_getUnits;
+	[2,[_spawnLoc], 1,false] call DHO_fnc_getUnits;
 	
 	//create unit directly behind player
 	//private _grp = [count _classnamesToSpawn, _classnamesToSpawn, _spawnType] call FS_fnc_spawnGroup;

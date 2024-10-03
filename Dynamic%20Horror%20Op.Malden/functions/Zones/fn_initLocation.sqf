@@ -24,4 +24,4 @@ params ["_selectedLoc","_locIndex"];
 	[_selectedLoc,_locIndex,_missionType] spawn DHO_fnc_createTask;
 	
 	//generate randomized spook noises
-	[_selectedLoc] call DHO_fnc_soundBehind;
+	[_selectedLoc] call DHO_fnc_generateSpooks;

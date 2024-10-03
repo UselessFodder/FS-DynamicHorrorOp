@@ -15,7 +15,7 @@ params ["_selectedLoc"];
 	
 	//select randomized sound
 	private _theSound = selectRandom[
-		"pianojumpscare.ogg"];	
+		"sounds\pianojumpscare.ogg","sounds\jump.ogg"];	
 	
 	//get area directly in front of player
 	//private _dir = _player call compile preprocessFileLineNumbers "getBehindPlayer.sqf";
@@ -29,7 +29,7 @@ params ["_selectedLoc"];
 	playSound3D [getMissionPath _theSound, _player, false, _spawnLoc,3]; 
 	
 	//select a random unit type and spawn them
-	[2,[_spawnLoc], 1,false] call FS_fnc_getUnits;
+	[2,[_spawnLoc], 1,false] call DHO_fnc_getUnits;
 	
 	//create unit directly behind player
 	//private _grp = [count _classnamesToSpawn, _classnamesToSpawn, _spawnType] call FS_fnc_spawnGroup;

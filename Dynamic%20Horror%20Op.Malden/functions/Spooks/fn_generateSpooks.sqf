@@ -16,7 +16,9 @@ if (MissionType == 0) then {
 
 while{true} do {
 	//wait time to use
-	private _waitTime = ((random(600) + 900) * _waitMultiplier);
+	//private _waitTime = ((random(600) + 900) * _waitMultiplier);
+	//***DEBUG
+	private _waitTime = 30;
 	
 	//check if any players are in the area
 	//private _playersNear = {_x distance locationPosition _selectedLoc) < (NearRadius * 1.5} count allPlayers;
@@ -26,15 +28,16 @@ while{true} do {
 		private _spookType = selectRandom[0,0,0,0,0,0,0,0,1,2];
 		
 		switch _spookType do {
-			case 0: { [_selectedLoc] execVM "soundBehind.sqf"; };
-			case 1: { [_selectedLoc] execVM "enemyBehind.sqf"; };
-			case 2: { [_selectedLoc] execVM "enemyInfront.sqf"; };
-			default { [_selectedLoc] execVM "soundBehind.sqf"; };
+			case 0: { [_selectedLoc] spawn DHO_fnc_soundBehind; };
+			case 1: { [_selectedLoc] spawn DHO_fnc_enemyBehind; };
+			case 2: { [_selectedLoc] spawn DHO_fnc_enemyInfront; };
+			default { [_selectedLoc] spawn DHO_fnc_soundBehind; };
 		};
 		
 	} else {
-		//if no sound plays, lessen time to check to 3-5 min
-		_waitTime = random(120) + 180;
+		//if no spook happens, lessen time to check to 3-5 min
+		//_waitTime = random(120) + 180; ***DEBUG
+		
 
 	};
 
