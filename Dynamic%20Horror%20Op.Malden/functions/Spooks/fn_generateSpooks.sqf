@@ -16,9 +16,10 @@ if (MissionType == 0) then {
 
 while{true} do {
 	//wait time to use
-	//private _waitTime = ((random(600) + 900) * _waitMultiplier);
+	private _waitTime = ((random(600) + 900) * _waitMultiplier);
+	
 	//***DEBUG
-	private _waitTime = 30;
+	//private _waitTime = 30;
 	
 	//check if any players are in the area
 	//private _playersNear = {_x distance locationPosition _selectedLoc) < (NearRadius * 1.5} count allPlayers;
@@ -36,7 +37,7 @@ while{true} do {
 		
 	} else {
 		//if no spook happens, lessen time to check to 3-5 min
-		//_waitTime = random(120) + 180; ***DEBUG
+		_waitTime = random(120) + 180;
 		
 
 	};

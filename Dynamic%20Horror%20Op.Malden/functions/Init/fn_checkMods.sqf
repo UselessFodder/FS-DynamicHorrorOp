@@ -18,13 +18,12 @@ if (Drongos) then {
 
 SPEZombies = False;
 
-FAP = isClass(configFile >> "cfgPatches" >> "zetaborn"); //zetaborn
+FAP = isClass(configFile >> "cfgPatches" >> "zetaborn"); //zetaborn & FAP
 if (FAP) then {
-	execVM "mods\FAP.sqf";
+	execVM "mods\Zetaborn.sqf";
 	//debug***
-	diag_log "FAP loaded...";
+	diag_log "Zetaborn Alienz loaded...";
 };
-
 
 Werewolf = isClass(configFile >> "cfgPatches" >> "Max_WW"); //Max_WW
 if (Werewolf) then {

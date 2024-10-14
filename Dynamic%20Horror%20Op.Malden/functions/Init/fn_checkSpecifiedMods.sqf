@@ -119,9 +119,9 @@ if (9 in _modArray) then {
 if (10 in _modArray) then {
 	FAP = isClass(configFile >> "cfgPatches" >> "zetaborn"); //zetaborn
 	if (FAP) then {
-		execVM "mods\FAP.sqf";
+		execVM "mods\Zetaborn.sqf";
 		//debug***
-		diag_log "FAP loaded...";
+		diag_log "Zetaborn Alienz loaded...";
 	}else {
 		//if mod not loaded, note in log as error
 		diag_log "** ERROR: Mod Foes and Allies Aliens not loaded!**";
