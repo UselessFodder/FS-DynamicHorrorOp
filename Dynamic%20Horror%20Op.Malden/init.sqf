@@ -149,13 +149,6 @@ if (isServer) then {
 		} forEach units group2;
 	};
 	
-	
-	diag_log "**** Init Complete ****";
-	
-	//add actions to insert helicopter
-	transportHeli addAction ["* Select LZ", "functions\Base\fn_selectHeliLZ.sqf", nil, 1.5, true, true, "", "_this == missionCommander && !(isEngineOn _target)", 10, false];
-	transportHeli addAction ["** Begin Insertion", "functions\Base\fn_heliInsert.sqf", nil, 1.5, true, true, "", "_this == missionCommander && !(isEngineOn _target)", 10, false];
-	
 	//add all units to ZeusObjects - UNNEEDED DUE TO 3DEN ENHANCED
 	//execVM "addToZeus.sqf";
 
@@ -191,6 +184,10 @@ if (isServer) then {
 		""
 	];
 
-	
+	diag_log "**** Init Complete ****";
 
 };
+
+//add actions to insert helicopter
+transportHeli addAction ["* Select LZ", "functions\Base\fn_selectHeliLZ.sqf", nil, 1.5, true, true, "", "_this == missionCommander && !(isEngineOn _target)", 10, false];
+transportHeli addAction ["** Begin Insertion", "functions\Base\fn_heliInsert.sqf", nil, 1.5, true, true, "", "_this == missionCommander && !(isEngineOn _target)", 10, false];

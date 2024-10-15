@@ -208,7 +208,7 @@ switch (_missionType) do
 			format ["LastLocation = getPos %1; [(%1 getVariable '_destroyObject')] call fnc_blowObject;['%2', 'SUCCEEDED'] call BIS_fnc_taskSetState; CompletedLocations = CompletedLocations + 1; publicVariable 'CompletedLocations'; publicVariable 'LastLocation';",_logicObject, _taskName],
 			""];
 		
-		{_x inArea thisTrigger} count allMissionObjects "#explosion" > 0
+		//{_x inArea thisTrigger} count allMissionObjects "#explosion" > 0
 
 	};
 };
