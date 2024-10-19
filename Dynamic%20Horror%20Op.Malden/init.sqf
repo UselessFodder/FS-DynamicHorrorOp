@@ -142,15 +142,15 @@ if (isServer) then {
 		[_x,_forEachIndex] spawn DHO_fnc_initLocation;
 	} forEach SelectedLocations;
 	
+	//create spawn protection zone to deter anomalous spawn camping
+	[300,5] call DHO_fnc_spawnZoneProtection;
+	
 	//if single player, delete group 2
 	if(!isMultiplayer) then {
 		{
 			deleteVehicle _x;
 		} forEach units group2;
 	};
-	
-	//add all units to ZeusObjects - UNNEEDED DUE TO 3DEN ENHANCED
-	//execVM "addToZeus.sqf";
 
 	fnc_finalTask = {
 	
