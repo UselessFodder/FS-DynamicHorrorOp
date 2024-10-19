@@ -157,6 +157,13 @@ if (Cytech) then {
 
 AtmosphericMusic = False;
 
+TTSEmissions = isClass(configFile >> "cfgPatches" >> "tts_emission"); //TTSEmissions STALKER Emissions
+if (TTSEmissions) then {
+	execVM "mods\TTSEmissions.sqf";
+	//debug***
+	diag_log "TTSEmissions loaded...";
+};
+
 sleep 1;
 //when done, notify spawners pools are available
 PoolsLoaded = true;

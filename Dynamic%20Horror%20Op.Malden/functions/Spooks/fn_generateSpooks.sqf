@@ -14,6 +14,20 @@ if (MissionType == 0) then {
 	_waitMultiplier = 0.5;
 };
 
+//spook events are generated from the list outlined below
+private _spookList = [0,0,0,0,0,0,0,0,1,2];
+//private _spookList = []; //***DEBUG
+
+//add in mod specific spooks
+//STALKER-like TTS Emissions
+if (isClass(configfile >> "CfgPatches" >> "tts_emission")) then {
+	_spookList append [3,3];
+};
+
+//***DEBUG
+diag_log format ["List of spooks to choose from this session: %1", _spookList];
+
+
 while{true} do {
 	//wait time to use
 	private _waitTime = ((random(600) + 900) * _waitMultiplier);
@@ -22,61 +36,24 @@ while{true} do {
 	//private _waitTime = 30;
 	
 	//check if any players are in the area
-	//private _playersNear = {_x distance locationPosition _selectedLoc) < (NearRadius * 1.5} count allPlayers;
 	if({(_x distance locationPosition _selectedLoc) < (NearRadius * 1.5)} count allPlayers > 0) then {
 		
-		//if so, generate a spook event from the list outlined below
-		private _spookType = selectRandom[0,0,0,0,0,0,0,0,1,2];
+		private _spookType = selectRandom _spookList;
 		
 		switch _spookType do {
-			case 0: { [_selectedLoc] spawn DHO_fnc_soundBehind; };
-			case 1: { [_selectedLoc] spawn DHO_fnc_enemyBehind; };
-			case 2: { [_selectedLoc] spawn DHO_fnc_enemyInfront; };
+			case 0: { [_selectedLoc] spawn DHO_fnc_soundBehind; }; //Create creepy sound nearby
+			case 1: { [_selectedLoc] spawn DHO_fnc_enemyBehind; }; //Spawn rear jumpscare
+			case 2: { [_selectedLoc] spawn DHO_fnc_enemyInfront; }; //Spawn front jumpscare
+			case 3: { [] spawn tts_emission_fnc_startEmission; }; //STALKER TTS emission
 			default { [_selectedLoc] spawn DHO_fnc_soundBehind; };
 		};
 		
 	} else {
 		//if no spook happens, lessen time to check to 3-5 min
 		_waitTime = random(120) + 180;
-		
+		diag_log format ["** No players in %1, waiting %2 seconds to check again",_selectedLoc,_waitTime];
 
 	};
 
 	sleep _waitTime;
 };
-
-/*
-		//select randomized sound
-		_theSound = selectRandom[
-			"zombie1.ogg", "zombie2.ogg", "zombie3.ogg", "gross1.ogg", 
-			"brush1.ogg","brush1.ogg","brush1.ogg",
-			"laugh1.ogg","laugh2.ogg","laugh3.ogg",
-			"growl.ogg","growl.ogg","whisper1.ogg",
-			"echo.ogg","echo.ogg","echo.ogg"];
-		
-		//get area directly behind player
-		_dir = getDir _player;
-		if (_dir < 180) then {
-		_dir = _dir +180;
-		}else {
-		_dir = _dir-180;
-		};  
-		
-		//select a random player
-	_player = selectRandom allPlayers;
-	
-	//check if player is inside spook zone and on the ground
-	if((_player distance locationPosition _selectedLoc) < (NearRadius * 1.5) && isTouchingGround _player) then {
-		
-		//randomize direction to be anywhere sort of behind player
-		_dir = _dir + random(180)-90;
-		
-		//play sound (mp safe)
-		playSound3D [getMissionPath _theSound, _player, false,_player getPos [10,_dir],3]; 
-		
-		//debug***
-		diag_log format ["BehindSound: Played sound %1 from player %2. Sleeping for %3 sec",_theSound,_player,_waitTime];
-
-		//debug***
-		diag_log format ["BehindSound: Player %1 is not in spook zone, skipping sound for %2.",_player,_waitTime];
-*/
