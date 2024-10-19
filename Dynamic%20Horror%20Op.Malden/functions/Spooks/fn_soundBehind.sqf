@@ -19,7 +19,9 @@ private _theSound = selectRandom[
 	"sounds\brush1.ogg","sounds\brush1.ogg","sounds\brush1.ogg",
 	"sounds\laugh1.ogg","sounds\laugh2.ogg","sounds\laugh3.ogg",
 	"sounds\growl.ogg","sounds\growl.ogg","sounds\whisper1.ogg",
-	"sounds\echo.ogg","sounds\echo.ogg","sounds\echo.ogg"];
+	"sounds\echo.ogg","sounds\echo.ogg","sounds\echo.ogg",
+	"sounds\whisper2.ogg","sounds\whisper3.ogg","sounds\horn2.ogg",
+	"sounds\ghost1.ogg","sounds\ghost2.ogg","sounds\ghost3.ogg"];
 
 //get area directly behind player
 private _dir = [_player] call DHO_fnc_getBehindPlayer;
