@@ -6,7 +6,7 @@ params["_valuePool","_spawnType", ["_numToSpawn", ceil(random 4)],["_doPatrol", 
 //diag_log format ["Starting getUnits with value pool %1, spawn type %2, num to spawn %3",_valuePool,_spawnType,_numToSpawn];
 
 //precompile script to spawn units TO MOVE***
-FS_fnc_spawnGroup = compile preprocessFile "spawnGroup.sqf";
+//DHO_fnc_spawnGroup = compile preprocessFile "functions\Zones\fn_spawnGroup.sqf";
 
 private _totalValue = 0;
 private _iterationsRemain = _numToSpawn;
@@ -53,9 +53,8 @@ while {_iterationsRemain != 0 && _valuePool > 0 && _numTries > 0} do {
 
 //spawn enemies at location specified
 if (count (groups east) < 144 && count _classnamesToSpawn > 0) then {
-	//private _grp = [count _classnamesToSpawn, _classnamesToSpawn, _spawnType] execVM "spawnGroup.sqf";
 	try {
-		private _grp = [count _classnamesToSpawn, _classnamesToSpawn, _spawnType] call FS_fnc_spawnGroup;
+		private _grp = [count _classnamesToSpawn, _classnamesToSpawn, _spawnType] call DHO_fnc_spawnGroup;
 		
 		//make some groups patrol
 		if(_doPatrol && ceil(random(10)) > 5) then {

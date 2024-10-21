@@ -39,7 +39,7 @@ switch (_missionType) do
 		_taskTrigger setTriggerArea [NearRadius, NearRadius, 0, false];
 		_taskTrigger setTriggerActivation ["EAST", "NOT PRESENT", true];
 		private _trigStatement1 = format ["count (units east inAreaArray '%1') == 0",_locationName];
-		private _trigStatement2 = format ["LastLocation = getPos %1; ['%2', 'SUCCEEDED'] call BIS_fnc_taskSetState; CompletedLocations = CompletedLocations + 1; publicVariable 'CompletedLocations';",_logicObject,_taskName];		
+		private _trigStatement2 = format ["LastLocation = getPos %1; ['%2', 'SUCCEEDED'] call BIS_fnc_taskSetState; CompletedLocations = CompletedLocations + 1; publicVariable 'CompletedLocations'; publicVariable 'LastLocation';",_logicObject,_taskName];		
 		_taskTrigger setTriggerStatements [
 			_trigStatement1, 
 			_trigStatement2, 
@@ -127,7 +127,7 @@ switch (_missionType) do
 		//_taskTrigger setTriggerArea [NearRadius, NearRadius, 0, false];
 		//_taskTrigger setTriggerActivation ["EAST", "NOT PRESENT", true];
 		private _trigStatement1 = format ["isNull (%1 getVariable '_retrieveObject')",_logicObject];
-		private _trigStatement2 = format ["LastLocation = getPos %1; ['%2', 'SUCCEEDED'] call BIS_fnc_taskSetState; CompletedLocations = CompletedLocations + 1; publicVariable 'CompletedLocations';",_logicObject,_taskName];
+		private _trigStatement2 = format ["LastLocation = getPos %1; ['%2', 'SUCCEEDED'] call BIS_fnc_taskSetState; CompletedLocations = CompletedLocations + 1; publicVariable 'CompletedLocations'; publicVariable 'LastLocation';",_logicObject,_taskName];
 		
 		_taskTrigger setTriggerStatements [
 			_trigStatement1, 
@@ -205,10 +205,10 @@ switch (_missionType) do
 		_taskTrigger setTriggerActivation ["EAST", "PRESENT", false];
 		_taskTrigger setTriggerStatements [
 			format ["({_x inArea thisTrigger} count allMissionObjects '#explosion' > 0) or {isNull (%1 getVariable '_destroyObject')}",_logicObject],
-			format ["LastLocation = getPos %1; [(%1 getVariable '_destroyObject')] call fnc_blowObject;['%2', 'SUCCEEDED'] call BIS_fnc_taskSetState; CompletedLocations = CompletedLocations + 1; publicVariable 'CompletedLocations';",_logicObject, _taskName],
+			format ["LastLocation = getPos %1; [(%1 getVariable '_destroyObject')] call fnc_blowObject;['%2', 'SUCCEEDED'] call BIS_fnc_taskSetState; CompletedLocations = CompletedLocations + 1; publicVariable 'CompletedLocations'; publicVariable 'LastLocation';",_logicObject, _taskName],
 			""];
 		
-		{_x inArea thisTrigger} count allMissionObjects "#explosion" > 0
+		//{_x inArea thisTrigger} count allMissionObjects "#explosion" > 0
 
 	};
 };
@@ -231,13 +231,13 @@ diag_log "";
 _collapseTrigger = createTrigger ["EmptyDetector", getMarkerPos _locationName];
 _collapseTrigger setTriggerArea [NearRadius/2, NearRadius/2, 0, false];
 _collapseTrigger setTriggerActivation ["WEST","PRESENT",false];
-_collapseTrigger setTriggerStatements ["this", format ["['%1',%2] execVM 'farEnemiesCollapse.sqf'",_locationName,locationPosition _selectedLoc], ""];
+_collapseTrigger setTriggerStatements ["this", format ["['%1',%2] call DHO_fnc_farEnemiesCollapse",_locationName,locationPosition _selectedLoc], ""];
 
 //create trigger to force enemies to chase players after a certain threshold have been defeated
 _chaseTrigger = createTrigger ["EmptyDetector", getMarkerPos _locationName];
 _chaseTrigger setTriggerStatements [
 	format ["count (units east inAreaArray '%1') < (TotalSpawned * ChaseRatio)",_locationName],
-	format ["['%1'] execVM 'allEnemiesChase.sqf'",_locationName]
+	format ["['%1'] spawn DHO_fnc_allEnemiesChase",_locationName]
 	, ""
 ];
 

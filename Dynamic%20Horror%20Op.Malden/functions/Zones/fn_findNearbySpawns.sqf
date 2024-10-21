@@ -1,5 +1,6 @@
 //0=spawn map location, 1=index of location within SelectedLocations
-//Example: [_selectedLoc,_locIndex] execVM "findNearbySpawns.sqf";
+//Example: [_selectedLoc,_locIndex] execVM "functions\Zones\fn_findNearbySpawns.sqf";
+//Example: [_selectedLoc,_locIndex] call DHO_fnc_findNearbySpawns;
 params["_spawnLoc","_locIndex"];
 
 //radius to search for spawn locations

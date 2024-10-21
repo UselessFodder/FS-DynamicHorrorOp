@@ -19,7 +19,7 @@ onMapSingleClick
 
 //FOR SAVE *** 
 /*
-this addAction ["Select LZ", "selectHeliLZ.sqf", nil, 1.5, true, true, "", "_this == MissionCommander", 10, false];
-this addAction ["** Begin Insertion", "heliInsert.sqf", nil, 1.5, true, true, "", "_this == MissionCommander", 10, false];
+this addAction ["Select LZ", "functions\Base\selectHeliLZ.sqf", nil, 1.5, true, true, "", "_this == MissionCommander", 10, false];
+this addAction ["** Begin Insertion", "functions\Base\heliInsert.sqf", nil, 1.5, true, true, "", "_this == MissionCommander", 10, false];
 
 */

@@ -13,7 +13,7 @@ params ["_selectedLoc","_locIndex"];
 	//TODO***
 	
 	//spawn enemies inside, out
-	_spawnInit = [_locIndex] execVM "initSpawns.sqf";
+	_spawnInit = [_locIndex] execVM "functions\Zones\fn_initSpawns.sqf";
 	
 	
 	//waitUntil{sleep 1;scriptDone _spawnInit};
@@ -21,7 +21,7 @@ params ["_selectedLoc","_locIndex"];
 	
 	
 	//generate tasks
-	[_selectedLoc,_locIndex,_missionType] execVM "createTask.sqf";
+	[_selectedLoc,_locIndex,_missionType] spawn DHO_fnc_createTask;
 	
-	//generate randomized spook noises
-	[_selectedLoc] execVM "soundBehind.sqf";
+	//generate randomized spook events
+	[_selectedLoc] call DHO_fnc_generateSpooks;
