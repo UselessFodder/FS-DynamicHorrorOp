@@ -131,11 +131,16 @@ if (isServer) then {
 	};
 	
 	for [{ private _i = 0 }, { _i < NumLocations }, { _i = _i + 1 }] do {
+		//***DEBUG
+		diag_log format ["Generating location %1", _i];
+		
 		//generate location
 		[] spawn DHO_fnc_findLocation;
+		
+		waitUntil{sleep 0.5; count SelectedLocations > _i};
 	};
 	
-	waitUntil {count SelectedLocations == NumLocations};
+	waitUntil {sleep 0.5; count SelectedLocations == NumLocations};
 	
 	//initialize all locations
 	{

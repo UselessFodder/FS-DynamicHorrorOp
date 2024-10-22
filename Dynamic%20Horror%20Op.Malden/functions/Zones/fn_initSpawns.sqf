@@ -2,13 +2,13 @@
 params ["_locIndex"];
 
 //debug***
-diag_log "Waiting for PoolsLoaded";
+diag_log format ["%1: Waiting for PoolsLoaded", text (SelectedLocations select _locIndex)];
 
 //wait until pools are loaded 
 waitUntil {sleep 0.5; PoolsLoaded};
 
 //debug***
-diag_log "Now starting initSpawns";
+diag_log format ["%1: Now starting initSpawns", text (SelectedLocations select _locIndex)];
 
 //precompile script to spawn units TO MOVE***
 //FS_fnc_getUnits = compile preprocessFile "getUnits.sqf";
@@ -57,7 +57,7 @@ private _numTryIterations = 5;
 private _numTries = _numTryIterations;
 
 //debug***
-diag_log format ["Values: %1, %2, %3", _buildingValues,_nearValues,_farValues];
+//diag_log format ["Values: %1, %2, %3", _buildingValues,_nearValues,_farValues];
 
 //get logic object holding our spawns and remove spawn variables
 _logicName = format["selectedLocation%1", _locIndex];
@@ -70,7 +70,7 @@ _farSpawns = _logicObject getVariable "_farSpawns";
 if (count _buildingSpawns <= 0) then {
 	_buildingSpawns = _nearSpawns;
 	//debug***
-	diag_log "Switching from building to near spawns due to no buildings";
+	diag_log format ["%1: Switching from building to near spawns due to no buildings", text (SelectedLocations select _locIndex)];
 };
 
 //spawn enemies until out of value
@@ -99,7 +99,7 @@ while {_buildingValues > 0 && _numTries > 0} do {
 };
 
 //debug***
-diag_log "***  Building spawns complete, beginning near spawns";
+diag_log format ["***  %1: Building spawns complete, beginning near spawns", text (SelectedLocations select _locIndex)];
 
 _numTries = _numTryIterations;
 
@@ -125,7 +125,7 @@ while {_nearValues > 0 && _numTries > 0} do {
 };
 
 //debug***
-diag_log "***  Near spawns complete, beginning far spawns";
+diag_log format ["*** %1: Near spawns complete, beginning far spawns", text (SelectedLocations select _locIndex)];
 
 _numTries = _numTryIterations;
 
@@ -190,7 +190,7 @@ TotalSpawned = count units east;
 publicVariable "TotalSpawned";
 
 //debug***
-diag_log format ["***  All spawns complete! %1 units spawned ***", TotalSpawned];
+diag_log format ["*** %1: All spawns complete! %2 units spawned across all zones ***", text (SelectedLocations select _locIndex),TotalSpawned];
 
 //check if group is in anything other than EAST and, if so, put in new group
 //diag_log "** Checking new group are all EAST";
