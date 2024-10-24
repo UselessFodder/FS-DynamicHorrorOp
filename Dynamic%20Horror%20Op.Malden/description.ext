@@ -104,6 +104,7 @@ class CfgFunctions
 			class initRetrieveItems {};
 			class randomMods {};
 			class spawnZoneProtection {};
+			class diagnostics {};
 		};
 		
 		class Spooks

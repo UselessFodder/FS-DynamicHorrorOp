@@ -10,6 +10,8 @@ private _spawnPos = selectRandom _spawnType;
 
 //group to hold new units
 private _newGroup = createGroup east;
+_newGroup enableDynamicSimulation true;
+
 //temp unit to ensure side is set to east
 private _tempUnit = _newGroup createUnit ["O_Survivor_F", _spawnPos, [], 5, "NONE"];
 

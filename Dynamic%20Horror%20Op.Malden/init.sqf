@@ -157,6 +157,9 @@ if (isServer) then {
 		} forEach units group2;
 	};
 
+	//Start polling diagnostic
+	[] call DHO_fnc_diagnostics;
+
 	fnc_finalTask = {
 	
 		//create trigger to complete task
