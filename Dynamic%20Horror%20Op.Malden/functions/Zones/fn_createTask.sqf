@@ -22,6 +22,22 @@ diag_log format ["* Taskname = %1",_taskName];
 //allow spawning
 sleep 5;
 
+//add in custom light object to make spawned item more obvious
+fnc_spawnLight = {
+	params ["_object"];
+	_light = "#lightpoint" createVehicleLocal getPos _object;
+	_light setLightBrightness 0.2;
+	_light setLightAmbient [0.0, 1.0, 0.0];
+	_light setLightColor [0.0, 1.0, 0.0];
+	//_light attachTo [_retrieveObject, [0,0,0]];
+	_light lightAttachObject [_object, [0,0,0]];
+};
+
+fnc_destroyLight = {
+	params ["_loc"];
+	{deleteVehicle _x} forEach nearestObjects [_loc, ["#lightpoint", "#lightreflector"], 10];
+};
+
 //if mission is clear area
 switch (_missionType) do 
 {
@@ -78,15 +94,9 @@ switch (_missionType) do
 		_retrieveObject setPos [_newPos select 0, _newPos select 1, (_newPos select 2) + 0.1];
 		"Chemlight_green" createVehicle getPos _retrieveObject;
 		
-		//add in custom light object to make it more obvious
-		_light = "#lightpoint" createVehicleLocal getPos _retrieveObject;
-		_light setLightBrightness 0.2;
-		_light setLightAmbient [0.0, 1.0, 0.0];
-		_light setLightColor [0.0, 1.0, 0.0];
-		//_light attachTo [_retrieveObject, [0,0,0]];
-		_light lightAttachObject [_retrieveObject, [0,0,0]];
+		[_retrieveObject] remoteExec ["fnc_spawnLight", 0, true];
 		
-		private _lights = nearestObjects [_retrieveObject, ["#lightpoint", "#lightreflector"], 2];
+		//private _lights = nearestObjects [_retrieveObject, ["#lightpoint", "#lightreflector"], 2];
 		
 		//***debug
 		//diag_log format ["Items attached to retrieveObject: %1", attachedObjects _retrieveObject];
@@ -127,7 +137,7 @@ switch (_missionType) do
 		fnc_grabObject = {
 			params ["_retrieveObject"];
 			_retrieveObject addaction ["** Pick Up **",
-				{params ["_target"]; {deleteVehicle _x} forEach nearestObjects [_target, ["#lightpoint", "#lightreflector"], 2]; deleteVehicle _target;},
+				{params ["_target"]; [getPos _target] remoteExec ["fnc_destroyLight", 0, true]; deleteVehicle _target;},
 				nil, 1.5, true, true, "", "true",3]
 		};
 		publicVariable "fnc_grabObject";
@@ -165,18 +175,10 @@ switch (_missionType) do
 		//DestroyObject setPos [getPos DestroyObject select 0, getPos DestroyObject select 1, getPos DestroyObject select 2];
 		"Chemlight_green" createVehicle getPos _destroyObject;
 		
-		//add in custom light object to make it more obvious
-		_light = "#lightpoint" createVehicleLocal getPos _destroyObject;
-		_light setLightBrightness 0.2;
-		_light setLightAmbient [0.0, 1.0, 0.0];
-		_light setLightColor [0.0, 1.0, 0.0];
-		//_light attachTo [_destroyObject];
-		_light lightAttachObject [_destroyObject, [0,0,0]];
-		//publicVariable "DestroyObject";
-		
-		private _lights = nearestObjects [_destroyObject, ["#lightpoint", "#lightreflector"], 2];
+		[_destroyObject] remoteExec ["fnc_spawnLight", 0, true];		
 		
 		//***debug
+		//private _lights = nearestObjects [_destroyObject, ["#lightpoint", "#lightreflector"], 2];
 		//diag_log format ["Items attached to destroyObject: %1", attachedObjects _destroyObject];
 		//diag_log format ["Nearest lights: %1", _lights];
 		
@@ -211,8 +213,7 @@ switch (_missionType) do
 		fnc_blowObject = {
 			params ["_destroyObject"];
 			_loc = getPos _destroyObject; 
-			
-			{deleteVehicle _x} forEach nearestObjects [_loc, ["#lightpoint", "#lightreflector"], 2];
+			[_loc] remoteExec ["fnc_destroyLight", 0, true];
 			deleteVehicle _destroyObject;
 			
 			_grp = createGroup civilian; 
