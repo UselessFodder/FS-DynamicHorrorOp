@@ -2,13 +2,13 @@
 params ["_selectedLoc","_locIndex","_missionType"];
 
 //***DEBUG
-diag_log format ["** CreateTask params: %1, %2, %3",_selectedLoc, _locIndex, _missionType];
+diag_log format ["** %1: CreateTask params: %2, %3, %4",text _selectedLoc, _selectedLoc, _locIndex, _missionType];
 
 //marker and logic object name for this location
 _locationName = format["selectedLocation%1",_locIndex];
 
 //***DEBUG
-diag_log _locationName;
+//diag_log _locationName;
 
 //get logic object to save vars to
 _logicObject = missionNamespace getVariable _locationName;
@@ -77,6 +77,21 @@ switch (_missionType) do
 		//RetrieveObject setPos [getPos RetrieveObject select 0, getPos RetrieveObject select 1, (getPos RetrieveObject select 2)+0.3];
 		_retrieveObject setPos [_newPos select 0, _newPos select 1, (_newPos select 2) + 0.1];
 		"Chemlight_green" createVehicle getPos _retrieveObject;
+		
+		//add in custom light object to make it more obvious
+		_light = "#lightpoint" createVehicleLocal getPos _retrieveObject;
+		_light setLightBrightness 0.2;
+		_light setLightAmbient [0.0, 1.0, 0.0];
+		_light setLightColor [0.0, 1.0, 0.0];
+		//_light attachTo [_retrieveObject, [0,0,0]];
+		_light lightAttachObject [_retrieveObject, [0,0,0]];
+		
+		private _lights = nearestObjects [_retrieveObject, ["#lightpoint", "#lightreflector"], 2];
+		
+		//***debug
+		//diag_log format ["Items attached to retrieveObject: %1", attachedObjects _retrieveObject];
+		//diag_log format ["Nearest lights: %1", _lights];
+		
 		//_chemlight enableSimulationGlobal false;
 		//publicVariable "RetrieveObject";
 		
@@ -112,7 +127,7 @@ switch (_missionType) do
 		fnc_grabObject = {
 			params ["_retrieveObject"];
 			_retrieveObject addaction ["** Pick Up **",
-				{params ["_target"]; deleteVehicle _target;},
+				{params ["_target"]; {deleteVehicle _x} forEach nearestObjects [_target, ["#lightpoint", "#lightreflector"], 2]; deleteVehicle _target;},
 				nil, 1.5, true, true, "", "true",3]
 		};
 		publicVariable "fnc_grabObject";
@@ -149,7 +164,21 @@ switch (_missionType) do
 		_destroyObject = _destroyItem createVehicle _newPos;
 		//DestroyObject setPos [getPos DestroyObject select 0, getPos DestroyObject select 1, getPos DestroyObject select 2];
 		"Chemlight_green" createVehicle getPos _destroyObject;
+		
+		//add in custom light object to make it more obvious
+		_light = "#lightpoint" createVehicleLocal getPos _destroyObject;
+		_light setLightBrightness 0.2;
+		_light setLightAmbient [0.0, 1.0, 0.0];
+		_light setLightColor [0.0, 1.0, 0.0];
+		//_light attachTo [_destroyObject];
+		_light lightAttachObject [_destroyObject, [0,0,0]];
 		//publicVariable "DestroyObject";
+		
+		private _lights = nearestObjects [_destroyObject, ["#lightpoint", "#lightreflector"], 2];
+		
+		//***debug
+		//diag_log format ["Items attached to destroyObject: %1", attachedObjects _destroyObject];
+		//diag_log format ["Nearest lights: %1", _lights];
 		
 		//assign DestoryObject to logic object
 		_logicObject setVariable ["_destroyObject", _destroyObject];
@@ -182,6 +211,10 @@ switch (_missionType) do
 		fnc_blowObject = {
 			params ["_destroyObject"];
 			_loc = getPos _destroyObject; 
+			
+			{deleteVehicle _x} forEach nearestObjects [_loc, ["#lightpoint", "#lightreflector"], 2];
+			deleteVehicle _destroyObject;
+			
 			_grp = createGroup civilian; 
 			_fire = _grp createUnit ["ModuleEffectsFire_F", _loc, [], 0, "NONE"]; 
 			_fire setVariable ["ColorRed",0.5,true];  
@@ -195,7 +228,6 @@ switch (_missionType) do
 			_fire setVariable ["EffectSize",2,true];  
 			_fire setVariable ["ParticleOrientation",0,true];  
 			_fire setVariable ["FireDamage",2,true]; 
-			deleteVehicle _destroyObject;
 		};
 		
 		//create a task trigger
@@ -204,10 +236,12 @@ switch (_missionType) do
 		_taskTrigger setTriggerArea [10, 10, 0, false];
 		_taskTrigger setTriggerActivation ["EAST", "PRESENT", false];
 		_taskTrigger setTriggerStatements [
-			format ["({_x inArea thisTrigger} count allMissionObjects '#explosion' > 0) or {isNull (%1 getVariable '_destroyObject')}",_logicObject],
+			//format ["({_x inArea thisTrigger} count allMissionObjects '#explosion' > 0) or {isNull (%1 getVariable '_destroyObject')}",_logicObject],
+			//format ["(count (nearestObjects [thisTrigger, ['#explosion'], 10]) > 0) or {isNull (%1 getVariable '_destroyObject')}",_logicObject],
+			format ["(count (getPos thisTrigger nearObjects ['#explosion', 10]) > 0) or {isNull (%1 getVariable '_destroyObject')}",_logicObject],
 			format ["LastLocation = getPos %1; [(%1 getVariable '_destroyObject')] call fnc_blowObject;['%2', 'SUCCEEDED'] call BIS_fnc_taskSetState; CompletedLocations = CompletedLocations + 1; publicVariable 'CompletedLocations'; publicVariable 'LastLocation';",_logicObject, _taskName],
 			""];
-		
+		_taskTrigger attachTo [_destroyObject];
 		//{_x inArea thisTrigger} count allMissionObjects "#explosion" > 0
 
 	};
