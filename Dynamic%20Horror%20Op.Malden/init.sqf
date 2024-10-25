@@ -158,7 +158,7 @@ if (isServer) then {
 	};
 
 	//Start polling diagnostic
-	[] call DHO_fnc_diagnostics;
+	[] spawn DHO_fnc_diagnostics;
 
 	fnc_finalTask = {
 	
