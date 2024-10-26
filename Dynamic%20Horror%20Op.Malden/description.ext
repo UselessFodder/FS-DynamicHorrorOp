@@ -130,6 +130,8 @@ class CfgFunctions
 			class initLocation {};
 			class initSpawns {};
 			class spawnGroup {};
+			class spawnLight {};
+			class destroyLight {};
 		};
 	};
 };
