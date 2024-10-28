@@ -9,7 +9,8 @@ _farEnemyGroups = _logicObject getVariable "_farEnemyGroups";
 _allEnemyGroups = _nearEnemyGroups + _farEnemyGroups;
 
 while{(count _allEnemyGroups) > 0} do {
-	for "_i" from 0 to (count _allEnemyGroups)-1 do {
+	//for "_i" from 0 to (count _allEnemyGroups)-1 do {
+	for [{ private _i = 0 }, { _i < count _allEnemyGroups}, { _i = _i + 1 }] do {
 		private _group = _allEnemyGroups select _i;
 		
 		if (isNull _group) then {

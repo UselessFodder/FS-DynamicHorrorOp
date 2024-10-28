@@ -66,7 +66,7 @@ while {count _operationLocs < 10} do {
 };
 
 //debug*** for all locations
-diag_log format ["Final _operationLocs is %1 entries: %2",count _operationLocs, _operationLocs];
+//diag_log format ["Final _operationLocs is %1 entries: %2",count _operationLocs, _operationLocs];
 
 //select one location and paint it green
 private _selectedLoc = selectRandom _operationLocs;
@@ -75,7 +75,7 @@ private _selectedLoc = selectRandom _operationLocs;
 private _locName = format ["selectedLocation%1",_locIndex];
 
 //***DEBUG
-diag_Log _locName;
+//diag_Log _locName;
 
 _debugMarker = createMarker[_locName, locationPosition _selectedLoc];
 _debugMarker setMarkerShape "ELLIPSE";
@@ -85,10 +85,12 @@ _debugMarker setMarkerAlpha 0.5;
 _debugMarker setMarkerBrush "DIAGGRID";
 
 //debug***
-diag_log format ["Final Location is %1 at %2", text _selectedLoc, _selectedLoc];
+diag_log format ["Final %1 Location is %2 at %3", _locName, text _selectedLoc, _selectedLoc];
 
 //set final location global variable
-SelectedLocations pushback _selectedLoc;
+//SelectedLocations pushback _selectedLoc;
+SelectedLocations set [_locIndex, _selectedLoc];
+
 //publicVariable "FinalLocation";
 
 //create empty gameLogic to hold all location variables
@@ -98,6 +100,10 @@ _logic = _logicGroup createUnit ["Logic", getMarkerPos _locName, [], 0, "NONE"];
 //force custom object name
 _logic setVehicleVarName _locName;
 _logic call BIS_fnc_objectVar;
+
+//***debug
+diag_log format ["Logic object %1 created at location %2 at %3", _logic, text _selectedLoc, locationPosition _selectedLoc];
+
 
 //find all nearby buildings to location
 [_selectedLoc, _locIndex] call DHO_fnc_findNearbyStructures;
