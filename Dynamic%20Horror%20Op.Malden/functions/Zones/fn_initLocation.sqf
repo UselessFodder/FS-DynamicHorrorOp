@@ -4,7 +4,7 @@ params ["_selectedLoc","_locIndex"];
 	//select mission type
 	//0=clear area, 1=find objects, 2=destroy object, 3=kill boss, 4=rescue
 	//MissionType = floor(random(4));
-	_missionType = selectRandom[0,1,2];
+	_missionType = selectRandom[0,1,2,3];
 	//DEBUG***
 	//MissionType = 1;
 	
