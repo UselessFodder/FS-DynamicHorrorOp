@@ -58,8 +58,8 @@ while {(count _filteredBossTypes < 1) && (_maxBossLevel > 0)} do {
 };
 
 //if still no boss type was available, then exit with an error
-if (count _filteredBossTypes < 1) then {
-	exitWith{diag_log format ["*** ERROR: Boss Spawn unable to find any units at %1 Boss level or below!", ceil(count allPlayers / 4) + _difficultyModifier];};
+if (count _filteredBossTypes < 1) exitWith {
+	diag_log format ["*** ERROR: Boss Spawn unable to find any units at %1 Boss level or below!", ceil(count allPlayers / 4) + _difficultyModifier]
 };
 
 //select the boss unit from all boss units defined by mods

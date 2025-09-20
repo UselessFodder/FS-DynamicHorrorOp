@@ -6,7 +6,7 @@ params ["_selectedLoc","_locIndex"];
 	//MissionType = floor(random(4));
 	_missionType = selectRandom[0,1,2,3];
 	//DEBUG***
-	//MissionType = 1;
+	//_missionType = 3;
 	
 	//select enemy types
 	//0=all, 1=fantasy, 2=sci fi, 3=cryptid, 4=stalker/post-apoc, 5=undead
