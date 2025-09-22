@@ -84,6 +84,40 @@ if (isServer) then {
 	//generate possible items to Destroy in missiontype 2
 	call DHO_fnc_initDestroyItems;
 	
+	//if a single player launches in MP or on dedi, generate a squad
+	if (isMultiplayer && count allPlayers == 1) then {
+		
+		//types of units to spawn in team
+		private _unitTypes = [
+			'B_Soldier_F',
+			'B_medic_F',
+			'B_Soldier_GL_F',
+			'B_soldier_AR_F',
+			'B_soldier_M_F',
+			'B_soldier_LAT_F',
+			'B_soldier_AR_F',
+			'B_Soldier_F'
+		];
+		
+		//number of teammates depends on difficulty
+		private _numUnits = 8;
+		switch (DifficultyParam) do {
+			case 2:{
+				_numUnits = 6;
+			};
+			case 3:{
+				_numUnits = 4;
+			};
+		};
+		
+		//spawn the units and add to the player group
+		for [{ _i = 0 }, { _i < _numUnits }, { _i = _i + 1 }] do {
+			private _currentSpawn = [MissionCommander, 0, 1, 1] call BIS_fnc_findSafePos;
+			private _newUnit = group1 createUnit [_unitTypes select [_i], _spawnPos, [], 5, "NONE"];
+			[_newUnit] joinSilent group1;
+		};
+	};
+	
 	//if more players, increase NearRadius
 	if(count allPlayers > 4) then {
 		NearRadius = 200 + 10*((count allPlayers)-4);
