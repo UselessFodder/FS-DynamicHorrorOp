@@ -113,9 +113,25 @@ if (isServer) then {
 		//spawn the units and add to the player group
 		for [{ _i = 0 }, { _i < _numUnits }, { _i = _i + 1 }] do {
 			private _currentSpawn = [MissionCommander, 0, 1, 1] call BIS_fnc_findSafePos;
-			private _newUnit = group1 createUnit [_unitTypes select [_i], _spawnPos, [], 5, "NONE"];
+			private _newUnit = group1 createUnit [_unitTypes select _i, MissionCommander, [], 1, "NONE"];
+			
 			[_newUnit] joinSilent group1;
-		};
+			
+			//addAction to modify unit loadout
+			_actionID = _newUnit addAction [
+				"Modify Loadout", 
+				{
+					[_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1];
+				},
+				nil,
+				1.5,
+				true,
+				true,
+				"",
+				"(_target distance (getMarkerPos 'mainBase')) < 500"
+			];//end addAction
+			
+		};//end for loop
 	};
 	
 	//if more players, increase NearRadius
