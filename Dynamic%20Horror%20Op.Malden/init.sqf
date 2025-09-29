@@ -130,6 +130,13 @@ if (isServer) then {
 		[[PrefEnemy1,PrefEnemy2,PrefEnemy3]] call DHO_fnc_checkSpecifiedMods;
 	};
 	
+	//create some randomly generated zones in the wilderness = 10% of total location
+	private _numLocsToGen = ceil(0.1 * (count nearestLocations [[worldSize/2, worldSize/2,0],['NameCityCapital','NameCity','NameVillage','NameLocal','rockArea','ViewPoint'],worldSize/2]));
+	for [{ private _i = 0 }, { _i < _numLocsToGen }, { _i = _i + 1 }] do {
+		[] spawn DHO_fnc_createNewLocation;
+	};	
+	
+	
 	for [{ private _i = 0 }, { _i < NumLocations }, { _i = _i + 1 }] do {
 		//***DEBUG
 		diag_log format ["Generating location %1", _i];

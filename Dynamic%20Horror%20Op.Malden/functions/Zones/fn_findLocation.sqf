@@ -11,6 +11,7 @@ private _village = true;
 private _nameLocal = true;
 private _rockArea = true;
 private _viewPoint = true;
+private _flatArea = true;
 
 //array of location names to exclude from searach
 //private _dontSearch = ["Elektrozavodsk","Chernogorsk","Balota","Drakon","Factory","Airstrip"];
@@ -36,6 +37,10 @@ if (_rockArea) then {
 if (_viewPoint) then {
 	_searchTypes pushBack "ViewPoint";
 };
+if (_flatArea) then {
+	_searchTypes pushBack "FlatArea";
+};
+
 
 //log for debug***
 //diag_Log format ["Current area types to search = %1",_searchTypes];
@@ -83,6 +88,15 @@ _debugMarker setMarkerSize [NearRadius,NearRadius];
 _debugMarker setMarkerColor "ColorRed";
 _debugMarker setMarkerAlpha 0.5;
 _debugMarker setMarkerBrush "DIAGGRID";
+
+/* //if location is a randomly generated one, then set the name
+if (text _selectedLoc == "") then {
+	//get nearest named location
+	private _nearbyLocName = nearestLocation[[locationPosition _selectedLoc select 0, locationPosition _selectedLoc select 1], ['NameCityCapital','NameCity','NameVillage','NameLocal']];
+	
+	//set location name
+	_selectedLoc setText format ['Area near %1', _nearbyLocName];
+}; */
 
 //debug***
 diag_log format ["Final %1 Location is %2 at %3", _locName, text _selectedLoc, _selectedLoc];
