@@ -117,7 +117,7 @@ if (isServer) then {
 			
 			[_newUnit] joinSilent group1;
 			
-			//addAction to modify unit loadout
+			/* //addAction to modify unit loadout
 			_actionID = _newUnit addAction [
 				"Modify Loadout", 
 				{
@@ -129,7 +129,21 @@ if (isServer) then {
 				true,
 				"",
 				"(_target distance (getMarkerPos 'mainBase')) < 500"
-			];//end addAction
+			];//end addAction */
+			
+			//addAction to modify unit loadout and run on all clients
+			[_newUnit, [
+				"Modify Loadout", 
+				{
+					[_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1];
+				},
+				nil,
+				1.5,
+				true,
+				true,
+				"",
+				"(_target distance (getMarkerPos 'mainBase')) < 500"
+			]] remoteExec ['addAction',0];
 			
 		};//end for loop
 	};
