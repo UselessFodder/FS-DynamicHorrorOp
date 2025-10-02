@@ -103,6 +103,7 @@ class CfgFunctions
 			class initDestroyItems {};
 			class initRetrieveItems {};
 			class randomMods {};
+			class setUnitLoadout {};
 			class spawnZoneProtection {};
 			class diagnostics {};
 		};
