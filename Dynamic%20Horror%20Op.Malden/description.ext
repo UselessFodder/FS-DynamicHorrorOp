@@ -121,6 +121,7 @@ class CfgFunctions
 		{
 			class allEnemiesChase {};
 			class createTask {};
+			class createNewLocation {};
 			class farEnemiesCollapse {};
 			class findFarSpawns {};
 			class findLocation {};
