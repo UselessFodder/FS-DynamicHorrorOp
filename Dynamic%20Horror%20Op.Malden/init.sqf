@@ -84,8 +84,20 @@ if (isServer) then {
 	//generate possible items to Destroy in missiontype 2
 	call DHO_fnc_initDestroyItems;
 	
-	//if a single player launches in MP or on dedi, generate a squad
-	if (isMultiplayer && count allPlayers == 1) then {
+	//if in SP, delete group 2 and remaining nonplayer units in group 1
+	if(!isMultiplayer) then {
+		{
+			deleteVehicle _x;
+		} forEach units group2;
+		{
+			if(!(isPlayer _x)) then {
+				deleteVehicle _x;
+			};
+		} forEach units group1;
+	};
+	
+	//if a single player launches in SP, MP, or on dedi, generate a squad
+	if (count allPlayers == 1) then {
 		
 		//types of units to spawn in team
 		private _unitTypes = [
@@ -101,12 +113,16 @@ if (isServer) then {
 		
 		//number of teammates depends on difficulty
 		private _numUnits = 8;
-		switch (DifficultyParam) do {
-			case 2:{
-				_numUnits = 6;
-			};
-			case 3:{
-				_numUnits = 4;
+		
+		//check if parameters are possible
+		if (isMultiplayer) then {
+			switch (DifficultyParam) do {
+				case 2:{
+					_numUnits = 6;
+				};
+				case 3:{
+					_numUnits = 4;
+				};
 			};
 		};
 		
@@ -133,7 +149,7 @@ if (isServer) then {
 			
 			//addAction to modify unit loadout and run on all clients
 			[_newUnit, [
-				"Modify Loadout", 
+				"Modify Unit Loadout", 
 				{
 					[_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1];
 				},
@@ -220,13 +236,6 @@ if (isServer) then {
 	
 	//create spawn protection zone to deter anomalous spawn camping
 	[300,5] call DHO_fnc_spawnZoneProtection;
-	
-	//if single player, delete group 2
-	if(!isMultiplayer) then {
-		{
-			deleteVehicle _x;
-		} forEach units group2;
-	};
 
 	//Start polling diagnostic
 	[] spawn DHO_fnc_diagnostics;
