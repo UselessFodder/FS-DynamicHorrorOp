@@ -70,6 +70,7 @@ diag_log format ["Boss unit %1 spawning at %2",_newUnitType,_spawnPos];
 	
 private _newUnit = _newGroup createUnit [_newUnitType, _spawnPos, [], 5, "NONE"];
 [_newUnit] joinSilent _newGroup;
+_newUnit enableDynamicSimulation true;
 
 //delete temp unit
 deleteVehicle _tempUnit;
