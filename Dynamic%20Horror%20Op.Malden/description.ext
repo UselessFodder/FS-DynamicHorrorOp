@@ -94,6 +94,7 @@ class CfgFunctions
 		{
 			class heliInsert {};
 			class selectHeliLZ {};
+			class sendHeliToMarker {};
 		};
 		
 		class Init

@@ -12,7 +12,7 @@ class EditorData
 	};
 	class ItemIDProvider
 	{
-		nextID=209;
+		nextID=210;
 	};
 	class MarkerIDProvider
 	{
@@ -20,18 +20,18 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=55;
+		nextID=56;
 	};
 	class Camera
 	{
-		pos[]={8050.0864,35.549629,10153.071};
-		dir[]={0.57772255,-0.63397664,0.51411241};
-		up[]={0.47360325,0.77335155,0.4214578};
-		aside[]={0.66478461,-7.7183358e-08,-0.74703616};
+		pos[]={8080.1504,56.334846,10155.967};
+		dir[]={-0.68940312,-0.64772332,0.32437009};
+		up[]={-0.58609909,0.76186359,0.27576444};
+		aside[]={0.42574677,-1.5820842e-07,0.904863};
 	};
 };
 binarizationWanted=0;
-sourceName="dynamic%20horror%20op";
+sourceName="Dynamic%20Horror%20Op";
 addons[]=
 {
 	"A3_Characters_F",
@@ -370,7 +370,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=78;
+		items=79;
 		class Item0
 		{
 			dataType="Group";
@@ -390,7 +390,6 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="if (isPlayer this == false) then {" \n "_actionID = this addAction [ " \n "    ""Modify Loadout"",  " \n "    { " \n "     [_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1]; " \n "    }, " \n "    nil, " \n "    1.5, " \n "    true, " \n "    true, " \n "    """", " \n "    ""(_target distance (getMarkerPos 'mainBase')) < 500"" " \n "   ];" \n "};";
 						description="Mission Commander [Required]";
 						isPlayer=1;
 						isPlayable=1;
@@ -441,7 +440,6 @@ class Mission
 					class Attributes
 					{
 						skill=0.40000001;
-						init="if (isPlayer this == false) then {" \n "_actionID = this addAction [ " \n "    ""Modify Loadout"",  " \n "    { " \n "     [_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1]; " \n "    }, " \n "    nil, " \n "    1.5, " \n "    true, " \n "    true, " \n "    """", " \n "    ""(_target distance (getMarkerPos 'mainBase')) < 500"" " \n "   ];" \n "};";
 						isPlayable=1;
 					};
 					id=149;
@@ -461,7 +459,6 @@ class Mission
 					{
 						skill=0.44999999;
 						rank="CORPORAL";
-						init="if (isPlayer this == false) then {" \n "_actionID = this addAction [ " \n "    ""Modify Loadout"",  " \n "    { " \n "     [_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1]; " \n "    }, " \n "    nil, " \n "    1.5, " \n "    true, " \n "    true, " \n "    """", " \n "    ""(_target distance (getMarkerPos 'mainBase')) < 500"" " \n "   ];" \n "};";
 						isPlayable=1;
 					};
 					id=150;
@@ -481,7 +478,6 @@ class Mission
 					class Attributes
 					{
 						skill=0.40000001;
-						init="if (isPlayer this == false) then {" \n "_actionID = this addAction [ " \n "    ""Modify Loadout"",  " \n "    { " \n "     [_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1]; " \n "    }, " \n "    nil, " \n "    1.5, " \n "    true, " \n "    true, " \n "    """", " \n "    ""(_target distance (getMarkerPos 'mainBase')) < 500"" " \n "   ];" \n "};";
 						isPlayable=1;
 					};
 					id=151;
@@ -501,7 +497,6 @@ class Mission
 					class Attributes
 					{
 						rank="SERGEANT";
-						init="if (isPlayer this == false) then {" \n "_actionID = this addAction [ " \n "    ""Modify Loadout"",  " \n "    { " \n "     [_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1]; " \n "    }, " \n "    nil, " \n "    1.5, " \n "    true, " \n "    true, " \n "    """", " \n "    ""(_target distance (getMarkerPos 'mainBase')) < 500"" " \n "   ];" \n "};";
 						isPlayable=1;
 					};
 					id=152;
@@ -521,7 +516,6 @@ class Mission
 					{
 						skill=0.44999999;
 						rank="CORPORAL";
-						init="if (isPlayer this == false) then {" \n "_actionID = this addAction [ " \n "    ""Modify Loadout"",  " \n "    { " \n "     [_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1]; " \n "    }, " \n "    nil, " \n "    1.5, " \n "    true, " \n "    true, " \n "    """", " \n "    ""(_target distance (getMarkerPos 'mainBase')) < 500"" " \n "   ];" \n "};";
 						isPlayable=1;
 					};
 					id=153;
@@ -541,7 +535,6 @@ class Mission
 					class Attributes
 					{
 						skill=0.40000001;
-						init="if (isPlayer this == false) then {" \n "_actionID = this addAction [ " \n "    ""Modify Loadout"",  " \n "    { " \n "     [_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1]; " \n "    }, " \n "    nil, " \n "    1.5, " \n "    true, " \n "    true, " \n "    """", " \n "    ""(_target distance (getMarkerPos 'mainBase')) < 500"" " \n "   ];" \n "};";
 						isPlayable=1;
 					};
 					id=154;
@@ -561,7 +554,6 @@ class Mission
 					class Attributes
 					{
 						skill=0.40000001;
-						init="if (isPlayer this == false) then {" \n "_actionID = this addAction [ " \n "    ""Modify Loadout"",  " \n "    { " \n "     [_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1]; " \n "    }, " \n "    nil, " \n "    1.5, " \n "    true, " \n "    true, " \n "    """", " \n "    ""(_target distance (getMarkerPos 'mainBase')) < 500"" " \n "   ];" \n "};";
 						isPlayable=1;
 					};
 					id=155;
@@ -3670,7 +3662,6 @@ class Mission
 					flags=7;
 					class Attributes
 					{
-						init="if (isPlayer this == false) then {" \n "_actionID = this addAction [ " \n "    ""Modify Loadout"",  " \n "    { " \n "     [_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1]; " \n "    }, " \n "    nil, " \n "    1.5, " \n "    true, " \n "    true, " \n "    """", " \n "    ""(_target distance (getMarkerPos 'mainBase')) < 500"" " \n "   ];" \n "};";
 						isPlayable=1;
 					};
 					id=168;
@@ -3689,7 +3680,6 @@ class Mission
 					class Attributes
 					{
 						skill=0.40000001;
-						init="if (isPlayer this == false) then {" \n "_actionID = this addAction [ " \n "    ""Modify Loadout"",  " \n "    { " \n "     [_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1]; " \n "    }, " \n "    nil, " \n "    1.5, " \n "    true, " \n "    true, " \n "    """", " \n "    ""(_target distance (getMarkerPos 'mainBase')) < 500"" " \n "   ];" \n "};";
 						isPlayable=1;
 					};
 					id=169;
@@ -3710,7 +3700,6 @@ class Mission
 					{
 						skill=0.44999999;
 						rank="CORPORAL";
-						init="if (isPlayer this == false) then {" \n "_actionID = this addAction [ " \n "    ""Modify Loadout"",  " \n "    { " \n "     [_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1]; " \n "    }, " \n "    nil, " \n "    1.5, " \n "    true, " \n "    true, " \n "    """", " \n "    ""(_target distance (getMarkerPos 'mainBase')) < 500"" " \n "   ];" \n "};";
 						isPlayable=1;
 					};
 					id=170;
@@ -3730,7 +3719,6 @@ class Mission
 					class Attributes
 					{
 						skill=0.40000001;
-						init="if (isPlayer this == false) then {" \n "_actionID = this addAction [ " \n "    ""Modify Loadout"",  " \n "    { " \n "     [_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1]; " \n "    }, " \n "    nil, " \n "    1.5, " \n "    true, " \n "    true, " \n "    """", " \n "    ""(_target distance (getMarkerPos 'mainBase')) < 500"" " \n "   ];" \n "};";
 						isPlayable=1;
 					};
 					id=171;
@@ -3750,7 +3738,6 @@ class Mission
 					class Attributes
 					{
 						rank="SERGEANT";
-						init="if (isPlayer this == false) then {" \n "_actionID = this addAction [ " \n "    ""Modify Loadout"",  " \n "    { " \n "     [_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1]; " \n "    }, " \n "    nil, " \n "    1.5, " \n "    true, " \n "    true, " \n "    """", " \n "    ""(_target distance (getMarkerPos 'mainBase')) < 500"" " \n "   ];" \n "};";
 						isPlayable=1;
 					};
 					id=172;
@@ -3770,7 +3757,6 @@ class Mission
 					{
 						skill=0.44999999;
 						rank="CORPORAL";
-						init="if (isPlayer this == false) then {" \n "_actionID = this addAction [ " \n "    ""Modify Loadout"",  " \n "    { " \n "     [_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1]; " \n "    }, " \n "    nil, " \n "    1.5, " \n "    true, " \n "    true, " \n "    """", " \n "    ""(_target distance (getMarkerPos 'mainBase')) < 500"" " \n "   ];" \n "};";
 						isPlayable=1;
 					};
 					id=173;
@@ -3790,7 +3776,6 @@ class Mission
 					class Attributes
 					{
 						skill=0.40000001;
-						init="if (isPlayer this == false) then {" \n "_actionID = this addAction [ " \n "    ""Modify Loadout"",  " \n "    { " \n "     [_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1]; " \n "    }, " \n "    nil, " \n "    1.5, " \n "    true, " \n "    true, " \n "    """", " \n "    ""(_target distance (getMarkerPos 'mainBase')) < 500"" " \n "   ];" \n "};";
 						isPlayable=1;
 					};
 					id=174;
@@ -3810,7 +3795,6 @@ class Mission
 					class Attributes
 					{
 						skill=0.40000001;
-						init="if (isPlayer this == false) then {" \n "_actionID = this addAction [ " \n "    ""Modify Loadout"",  " \n "    { " \n "     [_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1]; " \n "    }, " \n "    nil, " \n "    1.5, " \n "    true, " \n "    true, " \n "    """", " \n "    ""(_target distance (getMarkerPos 'mainBase')) < 500"" " \n "   ];" \n "};";
 						isPlayable=1;
 					};
 					id=175;
@@ -4022,16 +4006,83 @@ class Mission
 				nAttributes=1;
 			};
 		};
+		class Item78
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={8040.6611,29.59313,10192.927};
+				angles[]={0.00077204045,0,6.2824135};
+			};
+			id=209;
+			type="SupportProvider_Virtual_Transport";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="SupportProvider_Virtual_Transport_BIS_SUPP_filter";
+					expression="_this setVariable ['BIS_SUPP_filter',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="Side";
+						};
+					};
+				};
+				class Attribute1
+				{
+					property="SupportProvider_Virtual_Transport_BIS_SUPP_vehicles";
+					expression="_this setVariable ['BIS_SUPP_vehicles',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="[]";
+						};
+					};
+				};
+				class Attribute2
+				{
+					property="SupportProvider_Virtual_Transport_BIS_SUPP_vehicleInit";
+					expression="_this setVariable ['BIS_SUPP_vehicleInit',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="STRING";
+							value="";
+						};
+					};
+				};
+				class Attribute3
+				{
+					property="SupportProvider_Virtual_Transport_BIS_SUPP_cooldown";
+					expression="_this setVariable ['BIS_SUPP_cooldown',_value,true];";
+					class Value
+					{
+						class data
+						{
+							singleType="SCALAR";
+							value=0;
+						};
+					};
+				};
+				nAttributes=4;
+			};
+		};
 	};
 	class Connections
 	{
 		class LinkIDProvider
 		{
-			nextID=13;
+			nextID=12;
 		};
 		class Links
 		{
-			items=13;
+			items=12;
 			class Item0
 			{
 				linkID=0;
@@ -4135,8 +4186,8 @@ class Mission
 			class Item10
 			{
 				linkID=10;
-				item0=144;
-				item1=39;
+				item0=146;
+				item1=145;
 				class CustomData
 				{
 					type="Sync";
@@ -4145,17 +4196,7 @@ class Mission
 			class Item11
 			{
 				linkID=11;
-				item0=144;
-				item1=145;
-				class CustomData
-				{
-					type="Sync";
-				};
-			};
-			class Item12
-			{
-				linkID=12;
-				item0=146;
+				item0=209;
 				item1=145;
 				class CustomData
 				{

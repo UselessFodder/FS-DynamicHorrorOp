@@ -279,3 +279,5 @@ if (isServer) then {
 //add actions to insert helicopter
 transportHeli addAction ["* Select LZ", "functions\Base\fn_selectHeliLZ.sqf", nil, 1.5, true, true, "", "_this == missionCommander && !(isEngineOn _target)", 10, false];
 transportHeli addAction ["** Begin Insertion", "functions\Base\fn_heliInsert.sqf", nil, 1.5, true, true, "", "_this == missionCommander && !(isEngineOn _target)", 10, false];
+//transportHeli addAction ["* Select LZ", {[] remoteExec ["selectHeliLZ",2]}, nil, 1.5, true, true, "", "_this == missionCommander && !(isEngineOn _target)", 10, false];
+//transportHeli addAction ["** Begin Insertion", {[] remoteExec ["heliInsert",2]}, nil, 1.5, true, true, "", "_this == missionCommander && !(isEngineOn _target)", 10, false];
