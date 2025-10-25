@@ -94,6 +94,7 @@ class CfgFunctions
 		{
 			class heliInsert {};
 			class selectHeliLZ {};
+			class sendHeliToMarker {};
 		};
 		
 		class Init
@@ -103,6 +104,7 @@ class CfgFunctions
 			class initDestroyItems {};
 			class initRetrieveItems {};
 			class randomMods {};
+			class setUnitLoadout {};
 			class spawnZoneProtection {};
 			class diagnostics {};
 		};
@@ -120,6 +122,7 @@ class CfgFunctions
 		{
 			class allEnemiesChase {};
 			class createTask {};
+			class createNewLocation {};
 			class farEnemiesCollapse {};
 			class findFarSpawns {};
 			class findLocation {};
@@ -130,6 +133,7 @@ class CfgFunctions
 			class initLocation {};
 			class initSpawns {};
 			class spawnGroup {};
+			class spawnBoss {};
 			class spawnLight {};
 			class destroyLight {};
 		};

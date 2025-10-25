@@ -84,6 +84,86 @@ if (isServer) then {
 	//generate possible items to Destroy in missiontype 2
 	call DHO_fnc_initDestroyItems;
 	
+	//if in SP, delete group 2 and remaining nonplayer units in group 1
+	if(!isMultiplayer) then {
+		{
+			deleteVehicle _x;
+		} forEach units group2;
+		{
+			if(!(isPlayer _x)) then {
+				deleteVehicle _x;
+			};
+		} forEach units group1;
+	};
+	
+	//if a single player launches in SP, MP, or on dedi, generate a squad
+	if (count allPlayers == 1) then {
+		
+		//types of units to spawn in team
+		private _unitTypes = [
+			'B_Soldier_F',
+			'B_medic_F',
+			'B_Soldier_GL_F',
+			'B_soldier_AR_F',
+			'B_soldier_M_F',
+			'B_soldier_LAT_F',
+			'B_soldier_AR_F',
+			'B_Soldier_F'
+		];
+		
+		//number of teammates depends on difficulty
+		private _numUnits = 8;
+		
+		//check if parameters are possible
+		if (isMultiplayer) then {
+			switch (DifficultyParam) do {
+				case 2:{
+					_numUnits = 6;
+				};
+				case 3:{
+					_numUnits = 4;
+				};
+			};
+		};
+		
+		//spawn the units and add to the player group
+		for [{ _i = 0 }, { _i < _numUnits }, { _i = _i + 1 }] do {
+			private _currentSpawn = [MissionCommander, 0, 1, 1] call BIS_fnc_findSafePos;
+			private _newUnit = group1 createUnit [_unitTypes select _i, MissionCommander, [], 1, "NONE"];
+			
+			[_newUnit] joinSilent group1;
+			
+			/* //addAction to modify unit loadout
+			_actionID = _newUnit addAction [
+				"Modify Loadout", 
+				{
+					[_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1];
+				},
+				nil,
+				1.5,
+				true,
+				true,
+				"",
+				"(_target distance (getMarkerPos 'mainBase')) < 500"
+			];//end addAction */
+			
+			//addAction to modify unit loadout and run on all clients
+			[_newUnit, [
+				"Modify Unit Loadout", 
+				{
+					[_this select 0, _this select 1, _this select 2, _this select 3] remoteExec ['DHO_fnc_setUnitLoadout', _this select 1];
+				},
+				nil,
+				1.5,
+				true,
+				true,
+				"",
+				"(_target distance (getMarkerPos 'mainBase')) < 500"
+			]] remoteExec ['addAction',0];
+			
+		};//end for loop
+	};
+	
 	//if more players, increase NearRadius
 	if(count allPlayers > 4) then {
 		NearRadius = 200 + 10*((count allPlayers)-4);
@@ -130,6 +210,13 @@ if (isServer) then {
 		[[PrefEnemy1,PrefEnemy2,PrefEnemy3]] call DHO_fnc_checkSpecifiedMods;
 	};
 	
+	//create some randomly generated zones in the wilderness = 10% of total location
+	private _numLocsToGen = ceil(0.1 * (count nearestLocations [[worldSize/2, worldSize/2,0],['NameCityCapital','NameCity','NameVillage','NameLocal','rockArea','ViewPoint'],worldSize/2]));
+	for [{ private _i = 0 }, { _i < _numLocsToGen }, { _i = _i + 1 }] do {
+		[] spawn DHO_fnc_createNewLocation;
+	};	
+	
+	
 	for [{ private _i = 0 }, { _i < NumLocations }, { _i = _i + 1 }] do {
 		//***DEBUG
 		diag_log format ["Generating location %1", _i];
@@ -149,13 +236,6 @@ if (isServer) then {
 	
 	//create spawn protection zone to deter anomalous spawn camping
 	[300,5] call DHO_fnc_spawnZoneProtection;
-	
-	//if single player, delete group 2
-	if(!isMultiplayer) then {
-		{
-			deleteVehicle _x;
-		} forEach units group2;
-	};
 
 	//Start polling diagnostic
 	[] spawn DHO_fnc_diagnostics;
@@ -199,3 +279,5 @@ if (isServer) then {
 //add actions to insert helicopter
 transportHeli addAction ["* Select LZ", "functions\Base\fn_selectHeliLZ.sqf", nil, 1.5, true, true, "", "_this == missionCommander && !(isEngineOn _target)", 10, false];
 transportHeli addAction ["** Begin Insertion", "functions\Base\fn_heliInsert.sqf", nil, 1.5, true, true, "", "_this == missionCommander && !(isEngineOn _target)", 10, false];
+//transportHeli addAction ["* Select LZ", {[] remoteExec ["selectHeliLZ",2]}, nil, 1.5, true, true, "", "_this == missionCommander && !(isEngineOn _target)", 10, false];
+//transportHeli addAction ["** Begin Insertion", {[] remoteExec ["heliInsert",2]}, nil, 1.5, true, true, "", "_this == missionCommander && !(isEngineOn _target)", 10, false];

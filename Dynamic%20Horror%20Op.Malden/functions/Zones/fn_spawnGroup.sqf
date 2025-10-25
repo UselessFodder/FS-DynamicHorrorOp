@@ -24,6 +24,7 @@ for "_i" from 0 to (_numToSpawn - 1) do {
 	
 	private _newUnit = _newGroup createUnit [_newUnitType, _spawnPos, [], 5, "NONE"];
 	[_newUnit] joinSilent _newGroup;
+	_newUnit enableDynamicSimulation true;
 	
 	//delay for computer's sake
 	sleep 0.1;

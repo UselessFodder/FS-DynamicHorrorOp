@@ -51,7 +51,7 @@ switch (_missionType) do
 		//add HQ calls
 		//TODO***
 	
-	};
+	};//end case 0 purge mission
 	case 1: { //find item missison
 	
 		//select item from list
@@ -151,7 +151,7 @@ switch (_missionType) do
 		
 		//***DEBUG
 		diag_log format["Find item selected. Part 5, task object is in state %1", _taskName call BIS_fnc_taskState];
-	};
+	};//end case 1 retrieve object mission
 	case 2: {//destroy object
 		//select item from list
 		private _destroyItem = selectRandom DestroyItems;
@@ -234,7 +234,55 @@ switch (_missionType) do
 		_taskTrigger attachTo [_destroyObject];
 		//{_x inArea thisTrigger} count allMissionObjects "#explosion" > 0
 
-	};
+	};//end case 2 destroy object mission
+	case 3: {//kill boss
+		//spawn boss unit
+		private _spawnLocs = _logicObject getVariable "_nearSpawns";
+		private _spawnPos = selectRandom _spawnLocs;
+		//***TODO: check locs exist and wait if not
+		//diag_log format ["Spawn selected for boss at %1 from a list of %2 nearspawns", _spawnPos, count _spawnLocs];
+		
+		private _bossGroup = [_spawnLocs] call DHO_fnc_spawnBoss;
+		private _bossUnit = leader _bossGroup;
+		
+		//save unit to logicObject for later use
+		_logicObject setVariable ["_bossUnit", _bossUnit];
+		
+		//object preview image
+		private _bossPhoto = getText (configfile >> "CfgVehicles" >> typeOf _bossUnit >> "editorPreview");
+		_taskString = '';
+		if (_bossPhoto == '') then {
+			_taskString = composeText ['<br/>*** ERROR, NO IMAGE ON FILE ***'];
+		} else {
+			_taskString = format ["%1",formatText [format ["<img image='%1'/>", _bossPhoto]]];
+		};
+		
+		diag_log format ["Task String = %1", _taskString];
+		
+		//create a task for this mission
+		[west, _taskName, [
+			format ["We have confirmed reports of a powerful entity '%1' operating near %2. Hunt it down and destroy it. You can see what it looks like below: %3",getText (configFile >> "cfgVehicles" >> typeOf _bossUnit >> "displayName"),text _selectedLoc, _taskString], 
+			format ["Destroy the '%1' ", getText (configFile >> "cfgVehicles" >> typeOf _bossUnit >> "displayName")], 
+			_locationName], 
+			getPos _bossUnit, 
+			"AUTOASSIGNED"] call BIS_fnc_taskCreate;
+		
+		//trigger to check if boss is destroyed
+		private _taskTrigger = createTrigger ["EmptyDetector", getPos _bossUnit];
+		_taskTrigger setTriggerArea [10, 10, 0, false];
+		_taskTrigger setTriggerActivation ["EAST", "PRESENT", false];
+
+		private _trigStatement1 = format ["isNull (%1 getVariable '_bossUnit') || lifeState (%1 getVariable '_bossUnit') == 'DEAD'", _logicObject];
+		private _trigStatement2 = format ["LastLocation = getPos %1; ['%2', 'SUCCEEDED'] call BIS_fnc_taskSetState; CompletedLocations = CompletedLocations + 1; publicVariable 'CompletedLocations'; publicVariable 'LastLocation';", _logicObject, _taskName];
+
+		_taskTrigger setTriggerStatements [
+			_trigStatement1,
+			_trigStatement2,
+			""
+		];
+		
+		diag_log format ["Boss mission created in zone %1. Boss type: %2",_locationName, getText (configFile >> "cfgVehicles" >> typeOf _bossUnit >> "displayName")];
+	};//end case 3 kill boss mission
 };
 
 //wait until all spawns are complete
