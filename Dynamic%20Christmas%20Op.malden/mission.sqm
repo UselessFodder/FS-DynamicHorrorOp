@@ -20,18 +20,18 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=56;
+		nextID=57;
 	};
 	class Camera
 	{
-		pos[]={8080.1504,56.334846,10155.967};
-		dir[]={-0.68940312,-0.64772332,0.32437009};
-		up[]={-0.58609909,0.76186359,0.27576444};
-		aside[]={0.42574677,-1.5820842e-07,0.904863};
+		pos[]={8062.6445,49.895664,10119.114};
+		dir[]={0.24301405,-0.35536927,0.90261495};
+		up[]={0.092394434,0.93471277,0.34317601};
+		aside[]={0.96564132,-7.1646355e-07,-0.25998437};
 	};
 };
 binarizationWanted=0;
-sourceName="Dynamic%20Horror%20Op";
+sourceName="Dynamic%20Christmas%20Op";
 addons[]=
 {
 	"A3_Characters_F",
@@ -40,6 +40,7 @@ addons[]=
 	"A3_Weapons_F_Ammoboxes",
 	"A3_Air_F_Heli_Light_01",
 	"A3_Air_F_Beta_Heli_Transport_01",
+	"CUP_CAMisc",
 	"A3_Soft_F_Beta_Truck_01",
 	"A3_Soft_F_MRAP_01",
 	"A3_Soft_F_Exp_LSV_01",
@@ -73,7 +74,7 @@ class AddonsMetaData
 {
 	class List
 	{
-		items=21;
+		items=22;
 		class Item0
 		{
 			className="A3_Characters_F";
@@ -118,103 +119,108 @@ class AddonsMetaData
 		};
 		class Item6
 		{
+			className="CUP_CAMisc";
+			name="CUP_CAMisc";
+		};
+		class Item7
+		{
 			className="A3_Soft_F_Beta";
 			name="Arma 3 Beta - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item7
+		class Item8
 		{
 			className="A3_Soft_F";
 			name="Arma 3 Alpha - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item8
+		class Item9
 		{
 			className="A3_Soft_F_Exp";
 			name="Arma 3 Apex - Unarmored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item9
+		class Item10
 		{
 			className="A3_Modules_F";
 			name="Arma 3 Alpha - Scripted Modules";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item10
+		class Item11
 		{
 			className="A3_Structures_F";
 			name="Arma 3 - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item11
+		class Item12
 		{
 			className="A3_Props_F_Orange";
 			name="Arma 3 Orange - Decorative and Mission Objects";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item12
+		class Item13
 		{
 			className="A3_Structures_F_Heli";
 			name="Arma 3 Helicopters - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item13
+		class Item14
 		{
 			className="A3_Structures_F_EPA";
 			name="Arma 3 Survive Episode - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item14
+		class Item15
 		{
 			className="A3_Structures_F_EPC";
 			name="Arma 3 Win Episode - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item15
+		class Item16
 		{
 			className="A3_Structures_F_EPB";
 			name="Arma 3 Adapt Episode - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item16
+		class Item17
 		{
 			className="A3_Props_F_Enoch";
 			name="Arma 3 Contact Platform - Decorative and Mission Objects";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item17
+		class Item18
 		{
 			className="A3_Structures_F_Mil";
 			name="Arma 3 - Military Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item18
+		class Item19
 		{
 			className="A3_Weapons_F_Bootcamp";
 			name="Arma 3 Bootcamp Update - Weapons and Accessories";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item19
+		class Item20
 		{
 			className="A3_Structures_F_Mark";
 			name="Arma 3 Marksmen - Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item20
+		class Item21
 		{
 			className="A3_Props_F_Argo";
 			name="Arma 3 Malden - Decorative and Mission Objects";
@@ -241,7 +247,7 @@ randomSeed=7911079;
 class ScenarioData
 {
 	author="UselessFodder";
-	overviewText="[Dynamically Generated Horror Missions] Join the Paranormal Operations Group (POG) and deal with spooks, anomolies, and paranormal disturbances across the world...";
+	overviewText="[Dynamically Generated Holiday Missions] Join Santa's Helper Squadron and fight to bring Holiday Cheer across the North Pole....";
 	overviewTextLocked="[Dynamically Generated Horror Missions] Join the Paranormal Operations Group (POG) and deal with spooks, anomolies, and paranormal disturbances across the world...";
 	overViewPicture="Title.paa";
 	overViewPictureLocked="Title.paa";
@@ -334,8 +340,8 @@ class CustomAttributes
 			{
 				class data
 				{
-					singleType="BOOL";
-					value=1;
+					singleType="SCALAR";
+					value=2;
 				};
 			};
 		};
@@ -346,7 +352,7 @@ class Mission
 {
 	class Intel
 	{
-		briefingName="Dynamic Horror Operations - Malden";
+		briefingName="Dynamic Christmas Operations - Malden";
 		overviewText="Dynamically generated horror mission";
 		timeOfChanges=1800.0002;
 		startWeather=0.25;
@@ -792,6 +798,7 @@ class Mission
 				angles[]={0,4.7802792,0};
 			};
 			side="Empty";
+			flags=4;
 			class Attributes
 			{
 			};
