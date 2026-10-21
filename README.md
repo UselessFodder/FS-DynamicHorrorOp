@@ -1,15 +1,18 @@
 # Dynamic Horror Ops
 
 **A procedurally generated paranormal operations mission for Arma 3.**  
-Created by **UselessFodder** · [Source code](https://github.com/UselessFodder/FS-DynamicHorrorOp) · [Issues & feedback](https://github.com/UselessFodder/FS-DynamicHorrorOp/issues)
+Created by **UselessFodder** · [Workshop Link](https://steamcommunity.com/sharedfiles/filedetails/?id=3064136265) · [Source code](https://github.com/UselessFodder/FS-DynamicHorrorOp) · [Issues & feedback](https://github.com/UselessFodder/FS-DynamicHorrorOp/issues)
 
-> **Report for duty, POG.** You're part of the **Paranormal Operations Group**, dispatched to investigate and contain unusual activity. Your orders are simple enough. What you find out there probably won't be.
+> Join the **Paranormal Operations Group (POG)** and deal with spooks, anomolies, and paranormal disturbances across the world...
+
+![Dynamic Horror Op mission artwork](https://github.com/UselessFodder/FS-DynamicHorrorOp/blob/main/Dynamic%2520Horror%2520Op.Malden/Title.jpg?raw=true)
 
 Dynamic Horror Op generates an assortment of hostile encounters, investigation sites, and objectives across the map, using creatures and anomalies from supported Arma 3 mods. One operation might be a desperate fight against the undead; the next could send your squad searching for a strange object while something stalks the treeline.
 
 This repository contains the **Malden** mission version and its SQF source. The project is a work in progress; this README is a temporary overview, not a complete user manual.
 
-![Dynamic Horror Op mission artwork](https://github.com/UselessFodder/FS-DynamicHorrorOp/blob/main/Dynamic%2520Horror%2520Op.Malden/Title.jpg?raw=true)
+## Storyline:
+>The Paranormal Operations Group, a secret multi-national organization, has served under various names since World War 2 to keep the world safe from (and unaware of) the cosmic horrors that threaten our existence. From zombie contagion outbreaks to anomalous beings from beyond the veil, POG stands ready to deploy, contain, and destroy the weird, the paranormal, and the horrifying, no matter where they crop up.
 
 ## What to expect
 
