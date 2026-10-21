@@ -9,7 +9,7 @@ Dynamic Horror Op generates an assortment of hostile encounters, investigation s
 
 This repository contains the **Malden** mission version and its SQF source. The project is a work in progress; this README is a temporary overview, not a complete user manual.
 
-![Dynamic Horror Op mission artwork](Dynamic%20Horror%20Op.Malden/Title.jpg)
+![Dynamic Horror Op mission artwork](https://github.com/UselessFodder/FS-DynamicHorrorOp/blob/main/Dynamic%2520Horror%2520Op.Malden/Title.jpg?raw=true)
 
 ## What to expect
 
